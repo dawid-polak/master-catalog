@@ -1,7 +1,7 @@
 import { useEffect, useId, useState } from "react";
 import "../assets/scss/Table.scss";
 
-export default function Table({ data }) {
+export default function Table({ data, title }) {
      const id = useId();
 
      const [pagination, setPagination] = useState({
@@ -59,7 +59,7 @@ export default function Table({ data }) {
           };
      }, [pagination, data]);
 
-     const elementHtml = itemDisplay.map((item, index) => {
+     const rowsHtml = itemDisplay.map((item, index) => {
           if (index <= pagination.itemsPerPage - 1) {
                return (
                     <tr key={index}>
@@ -74,6 +74,8 @@ export default function Table({ data }) {
      return (
           <>
                <table>
+                    {/* <caption>{title}</caption> */}
+
                     <thead>
                          <tr>
                               <th>ID</th>
@@ -81,7 +83,7 @@ export default function Table({ data }) {
                               <th>OEM</th>
                          </tr>
                     </thead>
-                    <tbody>{elementHtml}</tbody>
+                    <tbody>{rowsHtml}</tbody>
                     <tfoot>
                          <tr>
                               <th colSpan="3">
@@ -139,7 +141,3 @@ export default function Table({ data }) {
           </>
      );
 }
-
-Table.propTypes = {
-     data: [],
-};

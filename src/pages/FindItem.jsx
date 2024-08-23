@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../assets/scss/FindItem.scss";
 
 import Table from "../components/Table";
+import NoData from "../components/NoData";
 
 export default function FindItem() {
      const [dataForm, setDataForm] = useState({
@@ -11,6 +12,7 @@ export default function FindItem() {
      });
 
      const [data, setData] = useState([]);
+     const [columns, setColumns] = useState([]);
 
      function handleSetDataForm(e) {
           let name = e.target.name;
@@ -24,12 +26,27 @@ export default function FindItem() {
           });
      }
 
-     function clearData() {
-          // setDataForm((prevDataForm) => {
-          //   return {};
-          // });
-     }
+     // USE EFFECTS
+     useEffect(() => {
 
+          // create columns for the table
+          setColumns(() => {
+               let newColumns = [];
+               let firstDataIndex = data[0];
+
+               if (firstDataIndex) {
+                    for (const key in firstDataIndex) {
+                         newColumns.push(key);
+                    }
+
+                    return newColumns;
+               }
+
+               return [];
+          });
+     }, [data]);
+
+     // FUNCTIONS
      async function handleSubmitBtn(e) {
           e.preventDefault();
 
@@ -43,8 +60,6 @@ export default function FindItem() {
           const data = await res.json();
 
           if (data) {
-               clearData();
-
                console.log(data.data);
                setData(data.data);
           }
@@ -60,8 +75,11 @@ export default function FindItem() {
                               placeholder="Producent"
                               name="manufacturer"
                               onChange={handleSetDataForm}
+                              required
                          >
-                              <option value="--">Producent</option>
+                              <option value="" placeholder="Wybierz producenta">
+                                   Wybierz producenta
+                              </option>
                               <option value="dba">DBA</option>
                               <option value="bd">Black Diamond</option>
                               <option value="brembo">Brembo</option>
@@ -87,7 +105,8 @@ export default function FindItem() {
                </form>
 
                <div className="table">
-                    <Table data={data} />
+                    {columns[0] && <Table data={data} columns={columns} />}
+                    {!columns[0] && dataForm.manufacturer && <NoData />}
                </div>
           </>
      );

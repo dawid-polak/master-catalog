@@ -84,17 +84,25 @@ table {
     background-color: darken($background-grey, $hover-bg-darken);
 
     tr {
+      display: flex;
+      justify-content: center;
       th {
+        flex: 1;
         padding: 7px 0px;
       }
     }
   }
 
   tbody {
+
     tr {
+      display: flex;
+      justify-content: center;
       td {
+        flex: 1;
         padding: 6px 0px;
         border-bottom: 0.5px solid darken($background-grey, $hover-bg-darken);
+
       }
     }
     tr:hover {

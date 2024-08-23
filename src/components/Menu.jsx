@@ -14,6 +14,10 @@ export default function Menu() {
                          <Link to="/findItem" className="hyperlink">
                               Znajdź item
                          </Link>
+
+                         <Link to="/cross" className="hyperlink">
+                              Cross
+                         </Link>
                     </ul>
                </div>
           </>
