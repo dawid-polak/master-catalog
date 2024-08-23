@@ -1,13 +1,11 @@
+import { DatePicker } from "antd";
 
-import { DatePicker } from 'antd';
+import Producent from "../components/template/Producent";
 
-
-export default function Home () {
-    return  (
-        <>
-
-        <DatePicker />
-            <h1>Home Page</h1>
-        </>
-    )
+export default function Home() {
+     return (
+          <>
+               <Producent />
+          </>
+     );
 }
