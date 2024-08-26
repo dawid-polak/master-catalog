@@ -1,117 +1,172 @@
 import { SearchOutlined } from "@ant-design/icons";
-import { Space, Table, Tag, Button, Modal } from "antd";
+import { Space, Table, Tag, Button, Modal, Alert, Spin } from "antd";
 
 import "../../assets/scss/template/Producent.scss";
-import { useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 
 // Components
 import ProducentForm from "./ProducentForm";
 
 // Data
 import arrangementOfTemplate from "../../assets/composables/arrangementTemplate";
+import { useParams } from "react-router-dom";
 
 export default function Producent() {
-     const columns = [
-          {
-               title: "Name",
-               dataIndex: "name",
-               key: "name",
-               render: (text) => <a>{text}</a>,
-          },
-          {
-               title: "Age",
-               dataIndex: "age",
-               key: "age",
-          },
-          {
-               title: "Address",
-               dataIndex: "address",
-               key: "address",
-          },
-          {
-               title: "Tags",
-               key: "tags",
-               dataIndex: "tags",
-               render: (_, { tags }) => (
-                    <>
-                         {tags.map((tag) => {
-                              let color = tag.length > 5 ? "geekblue" : "green";
-                              if (tag === "loser") {
-                                   color = "volcano";
-                              }
-                              return (
-                                   <Tag color={color} key={tag}>
-                                        {tag.toUpperCase()}
-                                   </Tag>
-                              );
-                         })}
-                    </>
-               ),
-          },
-          {
-               title: "Action",
-               key: "action",
-               render: (_, record) => (
-                    <Space size="middle">
-                         <a>Invite {record.name}</a>
-                         <a>Delete</a>
-                    </Space>
-               ),
-          },
-     ];
+     const params = useParams();
 
-     const data = [
-          {
-               key: "1",
-               name: "John Brown",
-               age: 32,
-               address: "New York No. 1 Lake Park",
-               tags: ["nice", "developer"],
-          },
-          {
-               key: "2",
-               name: "Jim Green",
-               age: 42,
-               address: "London No. 1 Lake Park",
-               tags: ["loser"],
-          },
-          {
-               key: "3",
-               name: "Joe Black",
-               age: 32,
-               address: "Sydney No. 1 Lake Park",
-               tags: ["cool", "teacher"],
-          },
-     ];
-
+     // States
      const [openForm, setOpenForm] = useState(false);
+     const [dataTable, setDataTable] = useState();
+     const [columns, setColumns] = useState([]);
+     const [dataForm, setDataForm] = useState();
+     const [loading, setLoading] = useState(false);
+
+     // FUNCTIONS
+     function createObjectRowData(columns, objData, index) {
+          let obj = {};
+
+          columns.forEach((item) => {
+               obj[item.key] = objData[item.key];
+               obj.key = index;
+          });
+
+          return obj;
+     }
+
+     function createColumns(structureData) {
+          if (!structureData[0]) return;
+
+          let newColumns = [];
+
+          structureData.forEach((item) => {
+               newColumns.push({
+                    key: item.id,
+                    title: item.name,
+                    dataIndex: item.id,
+               });
+          });
+
+          return newColumns;
+     }
+
+     function createDataForm(formStructure, manufacturer) {
+          if (!formStructure) return;
+
+          let newDataForm = {};
+
+          formStructure.forEach((item) => {
+               // w przyszłości mozna uwzglednić ostanio wyszukane dane
+               newDataForm[item.id] = null;
+          });
+
+          newDataForm.manufacturer = manufacturer;
+
+          return newDataForm;
+     }
+
+     // USE EFFECTS
+     useEffect(() => {
+          if (!arrangementOfTemplate.producent[params.producentId]) return;
+
+          let form = arrangementOfTemplate.producent[params.producentId].form;
+
+          if (!form) return;
+
+          const handleGetData = async () => {
+               const newDataForm = createDataForm(form, params.producentId);
+               const newColumns = createColumns(form);
+
+               console.log(newDataForm);
+
+               let url = "https://ozparts.eu/mastercatalogue/data/findItem.php";
+               let headers = {
+                    method: "POST",
+                    body: JSON.stringify(newDataForm),
+               };
+
+               setLoading(true);
+
+               const res = await fetch(url, headers);
+               const data = await res.json();
+
+               if (data) {
+                    let readyToDisplayData = [];
+
+                    data.data.forEach((item, index) => {
+                         readyToDisplayData.push(
+                              createObjectRowData(newColumns, item, index)
+                         );
+                    });
+
+                    setDataForm(newDataForm);
+                    setColumns(newColumns);
+                    setDataTable(readyToDisplayData);
+                    setLoading(false);
+               }
+          };
+          handleGetData();
+
+          return () => {
+               setColumns([]);
+               setDataForm({});
+          };
+     }, [params.producentId]);
 
      return (
           <>
-               <div className="top">
-                    <div className="title">DBA</div>
-                    <Button
-                         type="primary"
-                         icon={<SearchOutlined />}
-                         iconPosition="start"
-                         onClick={() => setOpenForm(true)}
-                    >
-                         Wyszukaj
-                    </Button>
-               </div>
+               {arrangementOfTemplate.producent[params.producentId] && (
+                    <div className="producent-view">
+                         <div className="top">
+                              <div className="title">
+                                   {params && params.producentId}
+                              </div>
+                              <Button
+                                   type="primary"
+                                   icon={<SearchOutlined />}
+                                   iconPosition="start"
+                                   onClick={() => setOpenForm(true)}
+                                   disabled={loading ? 'disabled' : null}
+                              >
+                                   Wyszukaj
+                              </Button>
+                         </div>
 
-               <Table columns={columns} dataSource={data} />
+                         <Spin className="spin" spinning={loading}>
+                              <Table
+                                   className="table"
+                                   columns={columns}
+                                   dataSource={dataTable}
+                                   rowKey="key"
+                              />
+                         </Spin>
 
-               <Modal
-                    open={openForm}
-                    onCancel={() => setOpenForm(false)}
-                    title="DBA"
-               >
-                    <ProducentForm
-                         producent={"dba"}
-                         arrangement={arrangementOfTemplate.producent["dba"]}
+                         <Modal
+                              open={openForm}
+                              onCancel={() => setOpenForm(false)}
+                              title={params.producentId}
+                         >
+                              <ProducentForm
+                                   arrangement={
+                                        arrangementOfTemplate.producent[
+                                             params.producentId
+                                        ]
+                                   }
+                                   dataForm={dataForm}
+                                   setDataForm={(newData) =>
+                                        setDataForm(newData)
+                                   }
+                              />
+                         </Modal>
+                    </div>
+               )}
+               {!arrangementOfTemplate.producent[params.producentId] && (
+                    <Alert
+                         showIcon
+                         type="error"
+                         message="Błąd krytyczny :/"
+                         description="Skontakuj się z developerem"
                     />
-               </Modal>
+               )}
           </>
      );
 }

@@ -17,6 +17,7 @@ body {
   // width: 80%;
   margin: auto;
   padding: 10px;
+  height: 100%;
 }
 
 // UI
@@ -72,83 +73,83 @@ select {
   }
 }
 
-table {
-  background-color: $background-grey;
-  width: 100%;
-  text-align: center;
-  font-size: 12px;
-  border-collapse: collapse;
-  border-radius: 5px;
-  overflow: auto;
+// table {
+//   background-color: $background-grey;
+//   width: 100%;
+//   text-align: center;
+//   font-size: 12px;
+//   border-collapse: collapse;
+//   border-radius: 5px;
+//   overflow: auto;
 
-  thead {
-    background-color: darken($background-grey, $hover-bg-darken);
+//   thead {
+//     background-color: darken($background-grey, $hover-bg-darken);
 
-    tr {
-      display: flex;
-      justify-content: center;
-      th {
-        flex: 1;
-        padding: 7px 0px;
-      }
-    }
-  }
+//     tr {
+//       display: flex;
+//       justify-content: center;
+//       th {
+//         flex: 1;
+//         padding: 7px 0px;
+//       }
+//     }
+//   }
 
-  tbody {
+//   tbody {
 
-    tr {
-      display: flex;
-      justify-content: center;
-      td {
-        flex: 1;
-        padding: 6px 0px;
-        border-bottom: 0.5px solid darken($background-grey, $hover-bg-darken);
+//     tr {
+//       display: flex;
+//       justify-content: center;
+//       td {
+//         flex: 1;
+//         padding: 6px 0px;
+//         border-bottom: 0.5px solid darken($background-grey, $hover-bg-darken);
 
-      }
-    }
-    tr:hover {
-      // background-color: darken($background-grey, $hover-bg-darken);
-      background-color: $base-blue;
-      color: #fff;
+//       }
+//     }
+//     tr:hover {
+//       // background-color: darken($background-grey, $hover-bg-darken);
+//       background-color: $base-blue;
+//       color: #fff;
 
-      cursor: pointer;
-    }
-  }
+//       cursor: pointer;
+//     }
+//   }
 
-  tfoot {
-    background-color: darken($background-grey, $hover-bg-darken);
+//   tfoot {
+//     background-color: darken($background-grey, $hover-bg-darken);
 
-    tr {
-      th {
-        padding: 7px 7px;
+//     tr {
+//       th {
+//         padding: 7px 7px;
 
-        .pagination {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
+//         .pagination {
+//           display: flex;
+//           align-items: center;
+//           justify-content: space-between;
 
-          input {
-            margin: 0px 10px;
-            width: 50px;
-            text-align: center;
-          }
+//           input {
+//             margin: 0px 10px;
+//             width: 50px;
+//             text-align: center;
+//           }
 
-          button {
-            width: 25px;
-            height: 25px;
-            padding: 0px;
-          }
-        }
+//           button {
+//             width: 25px;
+//             height: 25px;
+//             padding: 0px;
+//           }
+//         }
 
-        .items-per-page {
-          label {
-            padding: 0px 10px;
-          }
-        }
-      }
-    }
-  }
-}
+//         .items-per-page {
+//           label {
+//             padding: 0px 10px;
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
 
 .hyperlink {
   color: $base-blue;

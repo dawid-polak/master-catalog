@@ -4,32 +4,21 @@ import { Input, Button } from "antd";
 // Styles
 import "../../assets/scss/template/ProducentForm.scss";
 
-export default function ProducentForm({ producent, arrangement }) {
-     const [dataForm, setDataForm] = useState({});
-
+export default function ProducentForm({ dataForm, arrangement, setDataForm }) {
      let controls = {
           input: Input,
           button: Button,
      };
-
-     //  USE EFFECTS
-     useEffect(() => {
-          createDataForm(arrangement.form);
-     }, [arrangement]);
-
      //  FUNCTIONS
-     function createDataForm(formStructure) {
-          if (!formStructure) return;
 
-          setDataForm((prevState) => {
-               const newDataForm = { ...prevState };
+     function handleSetDataForm(e, control) {
+          let newValue = e.target.value;
 
-               formStructure.forEach((item) => {
-                    // w przyszłości mozna uwzglednić ostanio wyszukane dane
-                    newDataForm[item.id] = null;
-               });
-
-               return newDataForm;
+          setDataForm((prevDataForm) => {
+               return {
+                    ...prevDataForm,
+                    [control.id]: newValue,
+               };
           });
      }
 
@@ -43,6 +32,7 @@ export default function ProducentForm({ producent, arrangement }) {
                          placeholder={item.name}
                          type={item.type}
                          value={dataForm[item.id]}
+                         onChange={(e) => handleSetDataForm(e, item)}
                     />
                </div>
           );

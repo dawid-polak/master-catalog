@@ -1,13 +1,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout, theme } from "antd";
 
-const { Header, Content, Footer } = Layout;
+const { Content, Footer } = Layout;
 
 // Styles
 import "./assets/scss/App.scss";
 
 // Componets
-import SiderUi from "./components/SiderUi";
+import SiderUi from "./components/UI/SiderUi";
+import HeaderUi from "./components/UI/HeaderUi";
+import Producent from "./components/template/Producent";
 
 // Pages
 import FindItem from "./pages/FindItem";
@@ -25,22 +27,17 @@ function App() {
                     minHeight: "100vh",
                }}
           >
-               <SiderUi />
-               <Layout>
-                    <Header
-                         style={{
-                              background: colorBgContainer,
-                         }}
-                    />
-
-                    <Content
-                         style={{
-                              margin: "16px 16px 0px 16px",
-                              background: colorBgContainer,
-                              borderRadius: borderRadiusLG,
-                         }}
-                    >
-                         <BrowserRouter>
+               <BrowserRouter>
+                    <SiderUi />
+                    <Layout>
+                         <HeaderUi />
+                         <Content
+                              style={{
+                                   margin: "16px 16px 0px 16px",
+                                   background: colorBgContainer,
+                                   borderRadius: borderRadiusLG,
+                              }}
+                         >
                               <div className="container">
                                    <Routes>
                                         <Route path="/" element={<Home />} />
@@ -52,18 +49,22 @@ function App() {
                                              path="/cross"
                                              element={<Cross />}
                                         />
+                                        <Route
+                                             path="/producent/:producentId"
+                                             element={<Producent />}
+                                        />
                                    </Routes>
                               </div>
-                         </BrowserRouter>
-                    </Content>
-                    <Footer
-                         style={{
-                              textAlign: "center",
-                         }}
-                    >
-                         ©{new Date().getFullYear()} Created by 3C ERP
-                    </Footer>
-               </Layout>
+                         </Content>
+                         <Footer
+                              style={{
+                                   textAlign: "center",
+                              }}
+                         >
+                              ©{new Date().getFullYear()} Created by 3C ERP
+                         </Footer>
+                    </Layout>
+               </BrowserRouter>
           </Layout>
      );
 }
