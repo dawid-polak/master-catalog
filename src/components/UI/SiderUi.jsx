@@ -45,15 +45,23 @@ export default function SiderUi() {
                          label: "SDT",
                     },
                     {
-                         key: '/producent/bd',
-                         label: 'Black Diamond'
-                    }
+                         key: "/producent/bd",
+                         label: "Black Diamond",
+                    },
+                    {
+                         key: "/producent/brembo",
+                         label: "Brembo",
+                    },
+                    {
+                         key: "/producent/mintex",
+                         label: "Mintex",
+                    },
                ],
           },
      ];
 
-     // Functions 
-     // Change path 
+     // Functions
+     // Change path
      function handleNavigate(e) {
           return navigate(e.key);
      }

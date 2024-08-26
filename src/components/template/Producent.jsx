@@ -64,6 +64,33 @@ export default function Producent() {
           return newDataForm;
      }
 
+     async function handleGetData() {
+          let url = "https://ozparts.eu/mastercatalogue/data/findItem.php";
+          let headers = {
+               method: "POST",
+               body: JSON.stringify(dataForm),
+          };
+
+          setLoading(true);
+
+          const res = await fetch(url, headers);
+          const data = await res.json();
+
+          if (data) {
+               let readyToDisplayData = [];
+
+               data.data.forEach((item, index) => {
+                    readyToDisplayData.push(
+                         createObjectRowData(columns, item, index)
+                    );
+               });
+
+               setDataTable(readyToDisplayData);
+               setLoading(false);
+               setOpenForm(false);
+          }
+     }
+
      // USE EFFECTS
      useEffect(() => {
           if (!arrangementOfTemplate.producent[params.producentId]) return;
@@ -75,8 +102,6 @@ export default function Producent() {
           const handleGetData = async () => {
                const newDataForm = createDataForm(form, params.producentId);
                const newColumns = createColumns(form);
-
-               console.log(newDataForm);
 
                let url = "https://ozparts.eu/mastercatalogue/data/findItem.php";
                let headers = {
@@ -114,6 +139,7 @@ export default function Producent() {
 
      return (
           <>
+          <Alert showIcon type="info" message="O co chodzi?" description="Widok te umozliwia przeszukanie rdzennej tabeli producenta. Jeśli nie znajdziesz tutaj konretnej częsci wynik krosujący zapewne równiez jej nie zwróci." style={{marginBottom: 10}}/>
                {arrangementOfTemplate.producent[params.producentId] && (
                     <div className="producent-view">
                          <div className="top">
@@ -125,18 +151,30 @@ export default function Producent() {
                                    icon={<SearchOutlined />}
                                    iconPosition="start"
                                    onClick={() => setOpenForm(true)}
-                                   disabled={loading ? 'disabled' : null}
+                                   disabled={loading ? "disabled" : null}
                               >
                                    Wyszukaj
                               </Button>
                          </div>
 
-                         <Spin className="spin" spinning={loading}>
+                         <Spin
+                              className="spin"
+                              spinning={loading}
+                              styles={{ margin: 0 }}
+                         >
                               <Table
                                    className="table"
                                    columns={columns}
                                    dataSource={dataTable}
+                                   scroll
                                    rowKey="key"
+                                   fixed={true}
+                                   bordered={true}
+                                   // eslint-disable-next-line react/jsx-no-duplicate-props
+                                   scroll={{
+                                        x: 200,
+                                        y: 500,
+                                   }}
                               />
                          </Spin>
 
@@ -144,6 +182,11 @@ export default function Producent() {
                               open={openForm}
                               onCancel={() => setOpenForm(false)}
                               title={params.producentId}
+                              onOk={() => handleGetData()}
+                              confirmLoading={loading}
+                              maskClosable={!loading}
+                              cancelText="Zamknij"
+                              okText="Szukaj"
                          >
                               <ProducentForm
                                    arrangement={

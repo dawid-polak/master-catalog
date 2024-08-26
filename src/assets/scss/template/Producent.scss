@@ -1,7 +1,4 @@
 .producent-view {
-     height: 100%;
-     display: flex;
-     flex-flow: column;
 
      .top {
           padding: 10px 10px 20px 10px;
@@ -16,8 +13,7 @@
                color: #fc521e;
                font-weight: 300;
                letter-spacing: 1px;
+               text-transform: uppercase;
           }
      }
-
-     
 }

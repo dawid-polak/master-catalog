@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "../assets/scss/FindItem.scss";
 
 import Table from "../components/Table";
 import NoData from "../components/NoData";

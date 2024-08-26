@@ -5,73 +5,73 @@ $hover-bg-darken: 8%;
 $hover-bg-active: 16%;
 
 * {
-  box-sizing: border-box;
+     box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  font-family: "Poppins", sans-serif;
+     margin: 0;
+     font-family: "Poppins", sans-serif;
 }
 
 .container {
-  // width: 80%;
-  margin: auto;
-  padding: 10px;
-  height: 100%;
+     // width: 80%;
+     margin: auto;
+     padding: 10px;
+     height: 100%;
 }
 
 // UI
-button {
-  background-color: $base-blue;
-  padding: 10px 20px;
-  border: 0;
-  border-radius: 5px;
-  color: #fff;
-  text-transform: uppercase;
-  font-size: 11px;
-  height: 36px;
-  cursor: pointer;
+// button {
+//   background-color: $base-blue;
+//   padding: 10px 20px;
+//   border: 0;
+//   border-radius: 5px;
+//   color: #fff;
+//   text-transform: uppercase;
+//   font-size: 11px;
+//   height: 36px;
+//   cursor: pointer;
 
-  &:hover {
-    background-color: darken($base-blue, $hover-bg-darken);
-  }
+//   &:hover {
+//     background-color: darken($base-blue, $hover-bg-darken);
+//   }
 
-  &:active {
-    background-color: darken($base-blue, $hover-bg-active);
-  }
-}
+//   &:active {
+//     background-color: darken($base-blue, $hover-bg-active);
+//   }
+// }
 
-input {
-  height: 36px;
-  border-radius: 5px;
-  border: none;
-  background-color: $background-grey;
-  padding: 10px 10px;
-  font-size: 12px;
+// input {
+//   height: 36px;
+//   border-radius: 5px;
+//   border: none;
+//   background-color: $background-grey;
+//   padding: 10px 10px;
+//   font-size: 12px;
 
-  &:focus {
-    outline: 0.5px solid $base-blue;
-  }
-}
+//   &:focus {
+//     outline: 0.5px solid $base-blue;
+//   }
+// }
 
-select {
-  -webkit-appearance: none;
+// select {
+//   -webkit-appearance: none;
 
-  height: 36px;
-  border-radius: 5px;
-  border: none;
-  background-color: $background-grey;
-  padding: 10px 10px;
-  font-size: 12px;
+//   height: 36px;
+//   border-radius: 5px;
+//   border: none;
+//   background-color: $background-grey;
+//   padding: 10px 10px;
+//   font-size: 12px;
 
-  &:focus {
-    outline: 0.5px solid $base-blue;
-  }
+//   &:focus {
+//     outline: 0.5px solid $base-blue;
+//   }
 
-  &:-ms-expand {
-    display: none;
-  }
-}
+//   &:-ms-expand {
+//     display: none;
+//   }
+// }
 
 // table {
 //   background-color: $background-grey;
@@ -151,17 +151,17 @@ select {
 //   }
 // }
 
-.hyperlink {
-  color: $base-blue;
-  font-size: 12px;
+// .hyperlink {
+//   color: $base-blue;
+//   font-size: 12px;
 
-  &:hover {
-    cursor: pointer;
-    color: darken($base-blue, $hover-bg-darken);
-    text-decoration: underline;
-  }
+//   &:hover {
+//     cursor: pointer;
+//     color: darken($base-blue, $hover-bg-darken);
+//     text-decoration: underline;
+//   }
 
-  &:active {
-    color: darken($base-blue, $hover-bg-active);
-  }
-}
+//   &:active {
+//     color: darken($base-blue, $hover-bg-active);
+//   }
+// }

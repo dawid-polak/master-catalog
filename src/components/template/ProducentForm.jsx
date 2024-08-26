@@ -10,7 +10,6 @@ export default function ProducentForm({ dataForm, arrangement, setDataForm }) {
           button: Button,
      };
      //  FUNCTIONS
-
      function handleSetDataForm(e, control) {
           let newValue = e.target.value;
 
