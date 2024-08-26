@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { Alert } from "antd";
+import { Alert, Table } from "antd";
 
 import arrangementOfTemplate from "../assets/composables/arrangementTemplate";
+
+import "../assets/scss/Cross.scss";
 
 // Componetns
 import Form from "../components/cross/Form";
@@ -53,6 +55,9 @@ export default function Cross() {
           setLoading(false);
 
           console.log(data);
+
+          if (data) {
+          }
      }
 
      return (
@@ -64,16 +69,18 @@ export default function Cross() {
                     description="Jesteś na widoku formularza, który wysyła zapytania o skrzyowanie częsci producentów. Uwaga wierszy moze być bardzo duzo :)"
                />
 
-               <h3 className="title">Cross:</h3>
-               {arrangementOfTemplate.cross.form && (
-                    <Form
-                         arrangement={arrangementOfTemplate.cross.form}
-                         loading={loading}
-                         submit={(dataForm) => handleGetData(dataForm)}
-                    />
-               )}
+               <div className="cross">
+                    <h3 className="title">Cross:</h3>
+                    {arrangementOfTemplate.cross.form && (
+                         <Form
+                              arrangement={arrangementOfTemplate.cross.form}
+                              loading={loading}
+                              submit={(dataForm) => handleGetData(dataForm)}
+                         />
+                    )}
 
-               {data[0]}
+                    <Table />
+               </div>
           </>
      );
 }
