@@ -1,11 +1,12 @@
 import { SearchOutlined } from "@ant-design/icons";
-import { Space, Table, Tag, Button, Modal, Alert, Spin } from "antd";
+import { Space, Table, Tag, Button, Modal, Alert, Spin, Flex } from "antd";
 
 import "../../assets/scss/template/Producent.scss";
 import { useEffect, useState, Suspense } from "react";
 
 // Components
 import ProducentForm from "./ProducentForm";
+import DownloadFile from "../DownloadFile";
 
 // Data
 import arrangementOfTemplate from "../../assets/composables/arrangementTemplate";
@@ -139,22 +140,31 @@ export default function Producent() {
 
      return (
           <>
-          <Alert showIcon type="info" message="O co chodzi?" description="Widok te umozliwia przeszukanie rdzennej tabeli producenta. Jeśli nie znajdziesz tutaj konretnej częsci wynik krosujący zapewne równiez jej nie zwróci." style={{marginBottom: 10}}/>
+               <Alert
+                    showIcon
+                    type="info"
+                    message="O co chodzi?"
+                    description="Ten widok umożliwia przeszukanie rdzennej tabeli producenta. Jeśli nie znajdziesz tutaj konkretnej części, wynik krosujący zapewne również jej nie zwróci."
+                    style={{ marginBottom: 10 }}
+               />
                {arrangementOfTemplate.producent[params.producentId] && (
                     <div className="producent-view">
                          <div className="top">
                               <div className="title">
                                    {params && params.producentId}
                               </div>
-                              <Button
-                                   type="primary"
-                                   icon={<SearchOutlined />}
-                                   iconPosition="start"
-                                   onClick={() => setOpenForm(true)}
-                                   disabled={loading ? "disabled" : null}
-                              >
-                                   Wyszukaj
-                              </Button>
+                              <div style={{display: 'flex', gap: 10}}>
+                                   <DownloadFile data={dataTable} loading={loading}/>
+                                   <Button
+                                        type="primary"
+                                        icon={<SearchOutlined />}
+                                        iconPosition="start"
+                                        onClick={() => setOpenForm(true)}
+                                        disabled={loading ? "disabled" : null}
+                                   >
+                                        Wyszukaj
+                                   </Button>
+                              </div>
                          </div>
 
                          <Spin

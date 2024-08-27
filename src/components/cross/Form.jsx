@@ -2,7 +2,15 @@ import { Input, Button } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 
-export default function Form({ arrangement, loading, submit }) {
+import DownloadFile from "../DownloadFile";
+
+export default function Form({
+     arrangement,
+     loading,
+     submit,
+     allowDownload,
+     data,
+}) {
      const controls = {
           input: Input,
      };
@@ -37,7 +45,6 @@ export default function Form({ arrangement, loading, submit }) {
      //  FUNCTIONS
      function handleSubmit(e) {
           e.preventDefault();
-          console.log("ds");
           submit(dataForm);
      }
 
@@ -61,6 +68,10 @@ export default function Form({ arrangement, loading, submit }) {
           <>
                <form onSubmit={handleSubmit} style={{ margin: 10 }}>
                     {arrangement && formStructure}
+
+                    {allowDownload && (
+                         <DownloadFile loading={loading} data={data} />
+                    )}
 
                     <Button
                          type="primary"

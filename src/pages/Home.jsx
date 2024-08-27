@@ -1,11 +1,13 @@
-import { DatePicker, Alert } from "antd";
-
-import Producent from "../components/template/Producent";
+import { Alert } from "antd";
 
 export default function Home() {
      return (
           <>
-               <Alert showIcon message="Cześć!" description="Ten widok, czeka na aktualizcję. Przejdz do innych podstron."/>
+               <Alert
+                    showIcon
+                    message="Cześć!"
+                    description="Ten widok czeka na aktualizację. Przejdź do innych podstron."
+               />
           </>
      );
 }
