@@ -1,8 +1,8 @@
 import { SearchOutlined } from "@ant-design/icons";
-import { Space, Table, Tag, Button, Modal, Alert, Spin, Flex } from "antd";
+import { Table, Button, Modal, Alert, Spin } from "antd";
 
 import "../../assets/scss/template/Producent.scss";
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState } from "react";
 
 // Components
 import ProducentForm from "./ProducentForm";

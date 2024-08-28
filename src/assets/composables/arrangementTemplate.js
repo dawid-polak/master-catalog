@@ -187,6 +187,27 @@ const arrangementOfTemplate = {
                },
           ],
      },
+     crossSelect: {
+          id: "crossSelect",
+          name: "Wyszukaj aplikacje",
+          form: [
+               {
+                    id: "brand",
+                    name: "Marka",
+                    control: "select",
+               },
+               {
+                    id: "model",
+                    name: "Model",
+                    control: "select",
+               },
+               {
+                    id: "application",
+                    name: "Aplikacja",
+                    control: "select",
+               },
+          ],
+     },
 };
 
 export default arrangementOfTemplate;

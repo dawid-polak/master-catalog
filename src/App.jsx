@@ -24,7 +24,7 @@ function App() {
      return (
           <Layout
                style={{
-                    minHeight: "100vh",
+                    height: "100vh",
                }}
           >
                <BrowserRouter>
@@ -36,33 +36,34 @@ function App() {
                                    margin: "16px 16px 0px 16px",
                                    background: colorBgContainer,
                                    borderRadius: borderRadiusLG,
+                                   overflow: "auto",
+                                   padding: "10px",
                               }}
                          >
-                              <div className="container">
-                                   <Routes>
-                                        <Route path="/" element={<Home />} />
-                                        <Route
-                                             path="/findItem"
-                                             element={<FindItem />}
-                                        />
-                                        <Route
-                                             path="/cross"
-                                             element={<Cross />}
-                                        />
-                                        <Route
-                                             path="/producent/:producentId"
-                                             element={<Producent />}
-                                        />
-                                   </Routes>
-                              </div>
+                              <Routes>
+                                   <Route path="/" element={<Home />} />
+                                   <Route
+                                        path="/findItem"
+                                        element={<FindItem />}
+                                   />
+                                   <Route path="/cross" element={<Cross />} />
+                                   <Route
+                                        path="/producent/:producentId"
+                                        element={<Producent />}
+                                   />
+                              </Routes>
+
+                              <Footer
+                                   style={{
+                                        textAlign: "center",
+                                        borderRadius: "10px",
+
+                                        marginTop: "10px",
+                                   }}
+                              >
+                                   ©{new Date().getFullYear()} Created by 3C ERP
+                              </Footer>
                          </Content>
-                         <Footer
-                              style={{
-                                   textAlign: "center",
-                              }}
-                         >
-                              ©{new Date().getFullYear()} Created by 3C ERP
-                         </Footer>
                     </Layout>
                </BrowserRouter>
           </Layout>
