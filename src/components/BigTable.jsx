@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 // Data
 import namesColumnsTable from "../assets/composables/namesColumnsTable";
 
-export default function BigTable({ data }) {
+export default function BigTable({ data, loadingData }) {
      const [columns, setColumns] = useState();
 
      function createColumns(dataObj) {
@@ -33,7 +33,9 @@ export default function BigTable({ data }) {
 
      return (
           <>
-               <Table columns={columns} />
+               <Spin spinning={loadingData}>
+                    <Table columns={columns} />
+               </Spin>
           </>
      );
 }

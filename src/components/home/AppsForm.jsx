@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import { Button, Select } from "antd";
+import { Button, Select, message } from "antd";
 
 import getDataQuery from "../../assets/composables/getDataQuery";
 
 import "../../assets/scss/home/AppsForm.scss";
 
-export default function AppsForm() {
+export default function AppsForm({ submit, submitLoading }) {
      // STATES
      const [dataForm, setDataForm] = useState({
           brand: null,
@@ -30,11 +30,16 @@ export default function AppsForm() {
 
      //  DATA
      const sqlQueries = {
+          // Option
           brand: "SELECT DISTINCT Brand FROM CROSS_DRZEWKO",
           model: `SELECT DISTINCT Model FROM CROSS_DRZEWKO WHERE Brand = '${dataForm.brand}'`,
           application: `SELECT DISTINCT TD_Engine FROM CROSS_DRZEWKO WHERE Brand = '${
                dataForm.brand
           }'${dataForm.model ? " AND Model = " + `'${dataForm.model}'` : ""}`,
+          // Result form
+          dataBrand: `SELECT sku_sdt, sku_dba, sku_bd, sku_ebc, sku_brembo FROM CROSS_ALL_DATA WHERE Brand LIKE '${dataForm.brand}'`,
+          dataBrandModel: `SELECT sku_sdt, sku_dba, sku_bd, sku_ebc, sku_brembo FROM CROSS_ALL_DATA WHERE Brand LIKE '${dataForm.brand}' AND Model LIKE '${dataForm.model}'`,
+          dataBrandModelApplication: `SELECT sku_sdt, sku_dba, sku_bd, sku_ebc, sku_brembo FROM CROSS_ALL_DATA WHERE Brand LIKE '${dataForm.brand}' AND Model LIKE '${dataForm.model}' AND TD_Engine LIKE '${dataForm.application}'`,
      };
      const mappingData = {
           brand: "brands",
@@ -45,6 +50,16 @@ export default function AppsForm() {
           brand: "Brand",
           model: "Model",
           application: "TD_Engine",
+     };
+
+     //  MESSAGES
+     const [messageApi, contextHolder] = message.useMessage();
+
+     const openMessage = (type, content) => {
+          messageApi.open({
+               type: type,
+               content: content,
+          });
      };
 
      //  FUNCTIONS ASYNC
@@ -116,6 +131,8 @@ export default function AppsForm() {
                     [id]: value,
                };
           });
+
+          setErrors([]);
      }
 
      function clearDataForm() {
@@ -124,6 +141,31 @@ export default function AppsForm() {
                model: null,
                application: null,
           });
+     }
+
+     function formSubmit(e) {
+          e.preventDefault();
+
+          if (!dataForm.brand) {
+               setErrors(["brand"]);
+               openMessage("error", "Nie wybrano marki");
+
+               return;
+          }
+
+          if (dataForm.model && !dataForm.application) {
+               submit(sqlQueries.dataBrandModel);
+
+               return;
+          }
+
+          if (dataForm.model && dataForm.application) {
+               submit(sqlQueries.dataBrandModelApplication);
+
+               return;
+          }
+
+          submit(sqlQueries.dataBrand);
      }
 
      //  USE EFFECTS
@@ -194,6 +236,7 @@ export default function AppsForm() {
 
      return (
           <>
+               {contextHolder} {/* -- message */}
                <form className="apps-form">
                     <div className="first-row">
                          <Select
@@ -239,7 +282,7 @@ export default function AppsForm() {
                               errors.includes("application") ? "error" : null
                          }
                          disabled={disabled.includes("application")}
-                         placeholder="Aplikacja"
+                         placeholder="Silnik"
                          className="control"
                          optionFilterProp="label"
                          onChange={(e) => handleSetAppsForm(e, "application")}
@@ -248,7 +291,12 @@ export default function AppsForm() {
                     />
 
                     <div className="btns">
-                         <Button type="primary" htmlType="submit">
+                         <Button
+                              type="primary"
+                              htmlType="submit"
+                              onClick={(e) => formSubmit(e)}
+                              loading={submitLoading}
+                         >
                               Szukaj
                          </Button>
                          <Button

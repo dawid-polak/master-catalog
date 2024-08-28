@@ -6,6 +6,7 @@ import "../assets/scss/Home.scss";
 import arrangementOfTemplate from "../assets/composables/arrangementTemplate";
 
 import AppsForm from "../components/home/AppsForm";
+import AppsComponent from "../components/home/AppsComponent";
 
 // Components
 import BigTable from "../components/BigTable";
@@ -205,17 +206,7 @@ export default function Home() {
                          <div className="title">
                               <p>Wyszukaj aplikacje</p>
                          </div>
-
-                         <AppsForm />
-                    </div>
-               </div>
-               <div className="row">
-                    <div className="col">
-                         <div className="title">
-                              <p>Wyniki</p>
-                         </div>
-
-                         <BigTable data={null} />
+                         <AppsComponent />
                     </div>
                </div>
           </>
