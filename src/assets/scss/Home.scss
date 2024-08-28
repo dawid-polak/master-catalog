@@ -1,0 +1,29 @@
+.row {
+     display: flex;
+     gap: 10px;
+     margin: 10px 0px;
+
+     .col {
+          flex-grow: 1;
+          background-color: #f5f5f5;
+          border-radius: 10px;
+          padding: 10px;
+
+          .title {
+               text-transform: uppercase;
+               font-weight: 300;
+               font-size: 16px;
+               margin: 4px;
+
+               p {
+                    margin-top: 4px;
+               }
+          }
+
+          .control {
+               margin: 0px 0px 10px 0px;
+               width: 100%;
+
+          }
+     }
+}

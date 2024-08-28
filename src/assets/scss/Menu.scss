@@ -1,0 +1,19 @@
+.menu {
+    border-bottom: 2px solid #f8f9f9;
+    width: 100%;
+
+    ul {
+        display: flex;
+        gap: 20px;
+        list-style-type: none;
+        padding: 0;
+        margin: 20px 30px;
+        
+        li { 
+            text-decoration-line: none;
+            padding: 0;
+        }
+    }
+
+
+}

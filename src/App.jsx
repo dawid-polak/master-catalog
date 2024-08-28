@@ -1,35 +1,73 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Layout, theme } from "antd";
+
+const { Content, Footer } = Layout;
+
+// Styles
+import "./assets/scss/App.scss";
+
+// Componets
+import SiderUi from "./components/UI/SiderUi";
+import HeaderUi from "./components/UI/HeaderUi";
+import Producent from "./components/template/Producent";
+
+// Pages
+import FindItem from "./pages/FindItem";
+import Home from "./pages/Home";
+import Cross from "./pages/Cross";
 
 function App() {
-  const [count, setCount] = useState(0)
+     const {
+          token: { colorBgContainer, borderRadiusLG },
+     } = theme.useToken();
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+     return (
+          <Layout
+               style={{
+                    height: "100vh",
+               }}
+          >
+               <BrowserRouter>
+                    <SiderUi />
+                    <Layout>
+                         <HeaderUi />
+                         <Content
+                              style={{
+                                   margin: "16px 16px 0px 16px",
+                                   background: colorBgContainer,
+                                   borderRadius: borderRadiusLG,
+                                   overflow: "auto",
+                                   padding: "10px",
+                              }}
+                         >
+                              <Routes>
+                                   <Route path="/" element={<Home />} />
+                                   <Route
+                                        path="/findItem"
+                                        element={<FindItem />}
+                                   />
+                                   <Route path="/cross" element={<Cross />} />
+                                   <Route
+                                        path="/producent/:producentId"
+                                        element={<Producent />}
+                                   />
+                              </Routes>
+
+                              <Footer
+                                   style={{
+                                        textAlign: "center",
+                                        borderRadius: "10px",
+
+                                        marginTop: "10px",
+                                   }}
+                              >
+                                   ©{new Date().getFullYear()} Created by 3C ERP
+                              </Footer>
+                         </Content>
+                    </Layout>
+               </BrowserRouter>
+          </Layout>
+     );
 }
 
-export default App
+export default App;

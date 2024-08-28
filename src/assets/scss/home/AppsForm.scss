@@ -1,0 +1,12 @@
+.apps-form {
+     .first-row {
+          display: flex;
+          gap: 10px;
+     }
+
+     .btns {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+     }
+}
