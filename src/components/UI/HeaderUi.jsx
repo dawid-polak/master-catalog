@@ -13,6 +13,7 @@ export default function HeaderUi() {
           <Header
                style={{
                     background: colorBgContainer,
+                    borderRadius: 10,
                }}
                className="header"
           >

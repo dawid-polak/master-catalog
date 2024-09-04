@@ -2,17 +2,18 @@
      display: flex;
      gap: 10px;
      margin: 10px 0px;
+     max-width: 100%;
 
      .col {
           flex-grow: 1;
-          background-color: #f5f5f5;
+          background-color: #fff;
           border-radius: 10px;
-          padding: 10px;
+          padding: 15px;
+          max-width: 100%;
 
           .title {
-               text-transform: uppercase;
-               font-weight: 300;
-               font-size: 16px;
+               font-weight: 500;
+               font-size: 20px;
                margin: 4px;
 
                p {
@@ -20,10 +21,13 @@
                }
           }
 
+          .content {
+               padding: 0px 10px;
+          }
+
           .control {
                margin: 0px 0px 10px 0px;
                width: 100%;
-
           }
      }
 }

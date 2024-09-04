@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { Button, Select, message } from "antd";
 
-import getDataQuery from "../../assets/composables/getDataQuery";
+import getDataQuery from "../../../assets/composables/getDataQuery";
 
-import "../../assets/scss/home/AppsForm.scss";
+import "../../../assets/scss/home/AppsForm.scss";
 
-export default function AppsForm({ submit, submitLoading }) {
+export default function SearchEngine({ submit, submitLoading }) {
      // STATES
      const [dataForm, setDataForm] = useState({
           brand: null,

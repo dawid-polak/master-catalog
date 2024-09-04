@@ -2,7 +2,7 @@ import { DownloadOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { useState } from "react";
 
-export default function DownloadFile({ loading, data }) {
+export default function DownloadFile({ loading, data, size, type }) {
      const [loadingDownload, setLoadingDownload] = useState(false);
 
      function handleDownloadData() {
@@ -37,6 +37,8 @@ export default function DownloadFile({ loading, data }) {
                     icon={<DownloadOutlined />}
                     disabled={loading}
                     loading={loadingDownload}
+                    size={size ? size : null}
+                    type={type ? type : null}
                />
           </>
      );

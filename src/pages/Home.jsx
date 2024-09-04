@@ -1,15 +1,12 @@
-import { Alert, Select, Input, Button } from "antd";
+import { Select, Input } from "antd";
 import { useState } from "react";
 
 import "../assets/scss/Home.scss";
 
-import arrangementOfTemplate from "../assets/composables/arrangementTemplate";
-
-import AppsForm from "../components/home/AppsForm";
-import AppsComponent from "../components/home/AppsComponent";
+import MainApplicationSearchEngine from "../components/home/applicationSearchEngine/ApplicationSearchEngine";
 
 // Components
-import BigTable from "../components/BigTable";
+// import BigTable from "../components/BigTable";
 
 export default function Home() {
      const [brands, setBrands] = useState([]);
@@ -121,92 +118,22 @@ export default function Home() {
                .localeCompare((optionB?.label ?? "").toLowerCase());
      }
 
-     const formElements = arrangementOfTemplate.crossSelect.form.map(
-          (item, index) => {
-               let Control = controls[item.control];
-
-               if (item.control === "select") {
-                    return (
-                         <div key={index} className="control">
-                              <Control
-                                   value={appForm[item.id]}
-                                   placeholder={item.name}
-                                   style={{ width: "100%" }}
-                                   showSearch
-                                   onChange={(e) =>
-                                        handleSetAppsForm(e, item.id)
-                                   }
-                                   onFocus={() => handleFocusControl(item)}
-                                   options={
-                                        item.id === "brand"
-                                             ? brands
-                                             : item.id === "model"
-                                             ? models
-                                             : apps
-                                   }
-                                   optionFilterProp="label"
-                                   filterSort={(optionA, optionB) =>
-                                        filterSort(optionA, optionB)
-                                   }
-                              />
-                         </div>
-                    );
-               }
-
-               if (item.control === "input") {
-                    return;
-               }
-          }
-     );
-
      return (
           <>
-               <Alert
+               {/* <Alert
                     showIcon
                     message="Cześć!"
                     description="Ten widok czeka na aktualizację. Przejdź do innych podstron."
-               />
-               <div className="row">
-                    {/* <form className="col">
-                         <div className="title">
-                              <p>Wyszukaj aplikacje</p>
-                         </div>
-                         {formElements}
-                         <div
-                              style={{
-                                   display: "flex",
-                                   justifyContent: "space-between",
-                                   alignItems: "center",
-                              }}
-                         >
-                              <Button type="primary" htmlType="submit">
-                                   Szukaj
-                              </Button>
-                              <Button type="outlined" size="small">
-                                   Resetuj
-                              </Button>
-                         </div>
-                    </form> */}
-                    {/* <form className="col">
-                         <div className="title">
-                              <p>Znajdź część</p>
+               /> */}
 
-                              <Input
-                                   type="text"
-                                   placeholder="SKU"
-                                   className="control"
-                              />
-
-                              <Button type="primary">Szukaj</Button>
-                         </div>
-                    </form> */}
-               </div>
                <div className="row">
                     <div className="col">
                          <div className="title">
-                              <p>Wyszukaj aplikacje</p>
+                              <p>Wyszukiwarka aplikacji</p>
                          </div>
-                         <AppsComponent />
+                         <div className="content">
+                              <MainApplicationSearchEngine />
+                         </div>
                     </div>
                </div>
           </>
