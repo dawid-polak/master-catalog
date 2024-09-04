@@ -29,15 +29,18 @@ function App() {
           >
                <BrowserRouter>
                     <SiderUi />
-                    <Layout>
+                    <Layout
+                         style={{
+                              backgroundColor: "rgba(0%, 0%, 0%, 0)",
+                              padding: 10,
+                              marginBottom: 10,
+                              overflowY: "auto",
+                         }}
+                    >
                          <HeaderUi />
                          <Content
                               style={{
-                                   margin: "16px 16px 0px 16px",
-                                   background: colorBgContainer,
                                    borderRadius: borderRadiusLG,
-                                   overflow: "auto",
-                                   padding: "10px",
                               }}
                          >
                               <Routes>
@@ -52,12 +55,11 @@ function App() {
                                         element={<Producent />}
                                    />
                               </Routes>
-
                               <Footer
                                    style={{
                                         textAlign: "center",
                                         borderRadius: "10px",
-
+                                        background: colorBgContainer,
                                         marginTop: "10px",
                                    }}
                               >
