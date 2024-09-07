@@ -11,6 +11,10 @@ export default function Menu() {
                               Strona Główna
                          </Link>
 
+                         <Link to="/comparisonEngine" className="hyperlink">
+                              Porównywarka
+                         </Link>
+
                          <Link to="/findItem" className="hyperlink">
                               Znajdź item
                          </Link>

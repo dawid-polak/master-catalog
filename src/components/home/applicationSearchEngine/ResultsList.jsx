@@ -1,6 +1,5 @@
 import { List, Button } from "antd";
 import DownloadFile from "../../DownloadFile";
-import { DownOutlined } from "@ant-design/icons";
 
 import "../../../assets/scss/home/ResultsList.scss";
 

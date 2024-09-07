@@ -15,6 +15,7 @@ import Producent from "./components/template/Producent";
 import FindItem from "./pages/FindItem";
 import Home from "./pages/Home";
 import Cross from "./pages/Cross";
+import ComparisonEngine from "./pages/ComparisonEngine";
 
 function App() {
      const {
@@ -53,6 +54,10 @@ function App() {
                                    <Route
                                         path="/producent/:producentId"
                                         element={<Producent />}
+                                   />
+                                   <Route
+                                        path="/comparisonEngine"
+                                        element={<ComparisonEngine />}
                                    />
                               </Routes>
                               <Footer
