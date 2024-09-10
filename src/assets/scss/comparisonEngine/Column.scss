@@ -1,0 +1,58 @@
+.column-container {
+     height: 100%;
+     flex-grow: 1;
+     width: 100% !important;
+     display: flex;
+     flex-flow: column;
+
+     .title {
+          height: 50px;
+          display: flex;
+          align-items: center;
+          padding: 10px;
+
+          h3 {
+               margin: 0;
+               padding: 0;
+          }
+     }
+
+     .divider {
+          padding: 0;
+          margin: 0;
+          display: block;
+     }
+
+     .list {
+          overflow-y: auto;
+          height: 673px;
+
+          .list-item {
+               border-radius: 10px;
+               margin: 5px;
+               box-shadow: none;
+               border: 0;
+          }
+
+          .list-item:hover {
+            background-color: #F5F5F5 !important;
+          }
+
+
+          .ant-list-item:hover {
+               background-color: #1677ff;
+               cursor: pointer;
+          }
+     }
+
+     .footer {
+          height: 50px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .search {
+            margin: 0px 20px;
+          }
+     }
+}

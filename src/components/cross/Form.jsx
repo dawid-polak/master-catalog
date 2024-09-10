@@ -29,7 +29,7 @@ export default function Form({
 
           return (
                <div
-                    key={index}
+                    key={index} 
                     className="control"
                     style={{ marginBottom: 10 }}
                >
@@ -49,7 +49,7 @@ export default function Form({
      }
 
      function createDataForm() {
-          arrangement.forEach((item, index) => {
+          arrangement.forEach((item) => {
                setDataForm((prevDataForm) => {
                     return {
                          ...prevDataForm,

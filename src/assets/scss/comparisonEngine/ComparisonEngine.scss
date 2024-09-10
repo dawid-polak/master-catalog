@@ -1,0 +1,31 @@
+.comparison-engine {
+     .form {
+          background-color: #fff;
+          padding: 15px 15px 1px 15px;
+          margin: 10px 0px 10px 0px;
+          border-radius: 10px;
+
+          .title {
+               margin: 0px 0px 30px;
+               h2 {
+                    margin: 0;
+                    padding: 0;
+                    color: #fc521e;
+                    font-size: 26px;
+               }
+
+               p {
+                    margin: 5px 0px 0px 0px;
+                    color: #7d7d7d;
+                    font-size: 13px;
+               }
+          }
+     }
+
+     .finder {
+          background-color: #fff;
+          margin: 10px 0px;
+          border-radius: 10px;
+          width: 100%;
+     }
+}

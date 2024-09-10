@@ -32,14 +32,14 @@ export default function SearchEngine({ submit, submitLoading }) {
      const sqlQueries = {
           // Option
           brand: "SELECT DISTINCT Brand FROM CROSS_DRZEWKO",
-          model: `SELECT DISTINCT Model FROM CROSS_DRZEWKO WHERE Brand = '${dataForm.brand}'`,
+          model: `SELECT DISTINCT TD_Model FROM CROSS_DRZEWKO WHERE Brand = '${dataForm.brand}'`,
           application: `SELECT DISTINCT TD_Engine FROM CROSS_DRZEWKO WHERE Brand = '${
                dataForm.brand
-          }'${dataForm.model ? " AND Model = " + `'${dataForm.model}'` : ""}`,
+          }'${dataForm.model ? " AND TD_Model = " + `'${dataForm.model}'` : ""}`,
           // Result form
-          dataBrand: `SELECT sku_sdt, sku_dba, sku_bd, sku_ebc, sku_brembo FROM CROSS_ALL_DATA WHERE Brand LIKE '${dataForm.brand}'`,
-          dataBrandModel: `SELECT sku_sdt, sku_dba, sku_bd, sku_ebc, sku_brembo FROM CROSS_ALL_DATA WHERE Brand LIKE '${dataForm.brand}' AND Model LIKE '${dataForm.model}'`,
-          dataBrandModelApplication: `SELECT sku_sdt, sku_dba, sku_bd, sku_ebc, sku_brembo FROM CROSS_ALL_DATA WHERE Brand LIKE '${dataForm.brand}' AND Model LIKE '${dataForm.model}' AND TD_Engine LIKE '${dataForm.application}'`,
+          dataBrand: `SELECT sku_sdt, sku_dba, sku_bd, sku_ebc, sku_brembo FROM CROSS_ALL_DATA_NEW WHERE Brand LIKE '${dataForm.brand}'`,
+          dataBrandModel: `SELECT sku_sdt, sku_dba, sku_bd, sku_ebc, sku_brembo FROM CROSS_ALL_DATA_NEW WHERE Brand LIKE '${dataForm.brand}' AND TD_Model LIKE '${dataForm.model}'`,
+          dataBrandModelApplication: `SELECT sku_sdt, sku_dba, sku_bd, sku_ebc, sku_brembo FROM CROSS_ALL_DATA_NEW WHERE Brand LIKE '${dataForm.brand}' AND TD_Model LIKE '${dataForm.model}' AND TD_Engine LIKE '${dataForm.application}'`,
      };
      const mappingData = {
           brand: "brands",
@@ -48,7 +48,7 @@ export default function SearchEngine({ submit, submitLoading }) {
      };
      const mappingDataDb = {
           brand: "Brand",
-          model: "Model",
+          model: "TD_Model",
           application: "TD_Engine",
      };
 

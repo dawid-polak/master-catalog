@@ -4,9 +4,9 @@ import {
      SlidersOutlined,
      BoxPlotOutlined,
      HomeOutlined,
+     SwapOutlined
 } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useEffect } from "react";
 
 const { Sider } = Layout;
 
@@ -21,6 +21,11 @@ export default function SiderUi() {
                key: "/",
                label: "Strona główna",
                icon: <HomeOutlined />,
+          },
+          {
+               key: '/comparisonEngine',
+               label: 'Porównywarka',
+               icon: <SwapOutlined />
           },
           {
                key: "/cross",
