@@ -15,7 +15,7 @@ export default function HeaderUi() {
                title: "Wyjaśnie widoku",
                content: (
                     <div>
-                         <Alert
+                         {/* <Alert
                               type="info"
                               message="Jesteś na stronie głównej. W miarę rozwoju aplikacji będą pojawiać się tutaj dodatkowe widgets. Póki co znajdziesz tutaj widget: Wyszukaj apliakcje. Ma on na celu wyszukanie cześci na podstawie Marki Modelu i Silnika. Wszystkie dane  są odzwiercedleniem bazdy danych. Jeśli tutaj czegoś brakuje to znaczy, ze w bazie równiez."
                          />
@@ -23,7 +23,7 @@ export default function HeaderUi() {
                               style={{ margin: "10px 0px" }}
                               type="warning"
                               message="Uwaga! W widget 'Wyszukaj Aplikacje' selecty zwracają wszystkie mozliwe opcje oprócz wartości null"
-                         />
+                         /> */}
                     </div>
                ),
           });

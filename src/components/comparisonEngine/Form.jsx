@@ -4,7 +4,11 @@ import { Button, Checkbox, Form, Input, message, Select } from "antd";
 
 import getDataQuery from "../../assets/composables/getDataQuery";
 
-export default function ComparisonEngineForm({ setDataForm, dataForm }) {
+export default function ComparisonEngineForm({
+     setDataForm,
+     dataForm,
+     clickSubmit,
+}) {
      const [dataOptions, setDataOptions] = useState({
           brandOptions: null,
           modelOptions: null,
@@ -34,12 +38,6 @@ export default function ComparisonEngineForm({ setDataForm, dataForm }) {
           }'${
                dataForm.model ? " AND TD_Model = " + `'${dataForm.model}'` : ""
           }`,
-     };
-
-     const initialValues = {
-          brand: dataForm.brand,
-          model: dataForm.model,
-          engine: dataForm.engine,
      };
 
      async function getOptions(id) {
@@ -78,7 +76,7 @@ export default function ComparisonEngineForm({ setDataForm, dataForm }) {
 
      return (
           <div>
-               <Form initialValues={initialValues}>
+               <Form initialValues={dataForm} onFinish={() => clickSubmit()}>
                     <Form.Item rules={[rules.required]} name="brand">
                          <Select
                               showSearch
@@ -119,7 +117,7 @@ export default function ComparisonEngineForm({ setDataForm, dataForm }) {
                               type="primary"
                               htmlType="submit"
                          >
-                              Submit
+                              Szukaj
                          </Button>
                     </Form.Item>
                </Form>
