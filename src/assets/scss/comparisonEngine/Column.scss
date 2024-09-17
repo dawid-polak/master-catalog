@@ -10,6 +10,7 @@
           display: flex;
           align-items: center;
           padding: 10px;
+          justify-content: space-between;
 
           h3 {
                margin: 0;
@@ -35,9 +36,8 @@
           }
 
           .list-item:hover {
-            background-color: #F5F5F5 !important;
+               background-color: #f5f5f5 !important;
           }
-
 
           .ant-list-item:hover {
                background-color: #1677ff;
@@ -52,7 +52,7 @@
           align-items: center;
 
           .search {
-            margin: 0px 20px;
+               margin: 0px 20px;
           }
      }
 }

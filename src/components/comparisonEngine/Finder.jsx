@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import "../../assets/scss/comparisonEngine/Finder.scss";
 
 import ComparisonEngineColumn from "./Column";
-import { Divider } from "antd";
 
 export default function ComparisonEngineFinder({ query, dataForm }) {
      const [columns, setColumns] = useState([]);
@@ -37,6 +36,12 @@ export default function ComparisonEngineFinder({ query, dataForm }) {
 
      const createQuery = (id, item) => {
           let createdQuery;
+
+          if (id === "sku") {
+               createdQuery = `SELECT * FROM CROSS_SKU_KTYPE_V2 WHERE ktype IN ('120608' , '59244' , '121603' , '106381');
+`;
+               return createQuery;
+          }
 
           if (id === "brand") {
                createdQuery = `SELECT DISTINCT Brand FROM CROSS_ALL_DATA_NEW WHERE ${item.id_producent} = '${item.id}'`;

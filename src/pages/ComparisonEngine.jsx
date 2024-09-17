@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-
 import { useSearchParams } from "react-router-dom";
 
 import ComparisonEngineForm from "../components/comparisonEngine/Form";
 import ComparisonEngineFinder from "../components/comparisonEngine/Finder";
+
+import getDataQuery from "../assets/composables/getDataQuery";
+import mappingData from "../assets/composables/comparisonEngine/mappingData";
 
 import "../assets/scss/comparisonEngine/ComparisonEngine.scss";
 
@@ -13,41 +15,28 @@ export default function ComparisonEngine() {
           brand: null,
           model: null,
           engine: null,
+          yearsOfProductions: null,
+          power: null,
      });
      const [sqlQuery, setSqlQuery] = useState(null);
 
-     const handleSetDataForm = (id, updatedValue) => {
-          if (id === "brand") {
-               console.log("ds");
-               setDataForm(() => {
-                    return {
-                         model: null,
-                         engine: null,
-                         [id]: updatedValue,
-                    };
+     // Change data in dataForm
+     const handleSetDataForm = (id, updatedValue, fieldsToReset) => {
+          setDataForm((prevSetDataForm) => {
+               let newDataForm = {
+                    ...prevSetDataForm,
+                    [id]: updatedValue,
+               };
+
+               fieldsToReset.forEach((item) => {
+                    newDataForm[item] = null;
                });
-          } else {
-               setDataForm((prevSetDataForm) => {
-                    return {
-                         ...prevSetDataForm,
-                         [id]: updatedValue,
-                    };
-               });
-          }
+
+               return newDataForm;
+          });
      };
 
-     useEffect(() => {
-          let query = {};
-
-          for (const key in dataForm) {
-               if (dataForm[key]) {
-                    query = { ...query, [key]: dataForm[key] };
-               }
-          }
-
-          setSearchParams(query);
-     }, [dataForm]);
-
+     // function to retrieve data from the hyperplane
      const setDataFormFromQueries = () => {
           if (searchParams.size > 0) {
                if (dataForm.brand || dataForm.model || dataForm.engine) return;
@@ -56,6 +45,8 @@ export default function ComparisonEngine() {
                     brand: searchParams.get("brand"),
                     model: searchParams.get("model"),
                     engine: searchParams.get("engine"),
+                    yearsOfProductions: searchParams.get("yearsOfProductions"),
+                    power: searchParams.get("power"),
                };
 
                setDataForm(dataFromQuery);
@@ -64,28 +55,42 @@ export default function ComparisonEngine() {
 
      setDataFormFromQueries();
 
-     function handleClickSubmit() {
+     async function handleClickSubmit() {
           setSqlQuery(null);
-          const mappingDataDb = {
-               brand: "Brand",
-               model: "TD_Model",
-               engine: "TD_Engine",
-          };
 
-          let query =
-               "SELECT DISTINCT sku_sdt, sku_dba, sku_bd, sku_ebc, sku_brembo FROM CROSS_ALL_DATA_NEW WHERE ";
+          // Create sql query to get ktypes from drzewko
+          let query = "SELECT DISTINCT ktype FROM CROSS_DRZEWKO WHERE ";
 
           for (const key in dataForm) {
-               if (dataForm[key]) {
-                    query =
-                         query +
-                         `${mappingDataDb[key]} = '${dataForm[key]}' AND `;
+               if (!dataForm[key]) continue;
+
+               if (key === "yearsOfProductions") {
+                    let dateFrom = dataForm.yearsOfProductions.slice(0, 6);
+                    let dateTo = dataForm.yearsOfProductions.slice(6, 12);
+
+                    let dates = [dateFrom, dateTo];
+
+                    mappingData.nameData[key].forEach((item, index) => {
+                         query += `${item} = '${dates[index]}' AND `;
+                    });
+               } else {
+                    query += `${mappingData.nameData[key]} = '${dataForm[key]}' AND `;
                }
           }
 
           query = query.slice(0, -4);
 
-          if (dataForm.brand) {
+          // Get ktypes from drzewko
+          const res = await getDataQuery(query);
+
+          if (res && dataForm.brand) {
+               let ktypes = "";
+
+               ktypes += res.map((item) => " " + item.ktype);
+
+               query = `SELECT * FROM CROSS_SKU_KTYPE_V2 WHERE ktype IN (${ktypes})`;
+
+               // set query to column
                setSqlQuery(query);
 
                return;
@@ -93,6 +98,7 @@ export default function ComparisonEngine() {
           return;
      }
 
+     // Use effect to run the code that will download the data
      useEffect(() => {
           const navigationType =
                performance.getEntriesByType("navigation")[0].type;
@@ -104,6 +110,19 @@ export default function ComparisonEngine() {
                handleClickSubmit();
           }
      }, []);
+
+     // Automatic creation of the query in the link
+     useEffect(() => {
+          let query = {};
+
+          for (const key in dataForm) {
+               if (dataForm[key]) {
+                    query = { ...query, [key]: dataForm[key] };
+               }
+          }
+
+          setSearchParams(query);
+     }, [dataForm]);
 
      return (
           <div className="comparison-engine">
@@ -117,8 +136,12 @@ export default function ComparisonEngine() {
                          </p>
                     </div>
                     <ComparisonEngineForm
-                         setDataForm={(key, updatedValue) =>
-                              handleSetDataForm(key, updatedValue)
+                         setDataForm={(key, updatedValue, fieldsToReset) =>
+                              handleSetDataForm(
+                                   key,
+                                   updatedValue,
+                                   fieldsToReset
+                              )
                          }
                          clickSubmit={handleClickSubmit}
                          dataForm={dataForm}
