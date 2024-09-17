@@ -4,6 +4,7 @@ const mappingData = {
           B_DBA: "DBA",
           B_SDT: "SDT",
           B_EBC: "EBC",
+          B_BREMBO: "BREMBO",
      },
      formOptions: {
           brandOptions: "Brand",

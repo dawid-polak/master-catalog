@@ -30,6 +30,8 @@ export default function ComparisonEngineColumn({
                if (query) {
                     const res = await getDataQuery(query);
 
+                    console.log(res)
+
                     if (!res) return;
 
                     let newItems = [];

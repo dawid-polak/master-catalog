@@ -86,9 +86,9 @@ export default function ComparisonEngine() {
           if (res && dataForm.brand) {
                let ktypes = "";
 
-               ktypes += res.map((item) => " " + item.ktype);
+               ktypes += res.map((item) => " " + `'${item.ktype}'`);
 
-               query = `SELECT * FROM CROSS_SKU_KTYPE_V2 WHERE ktype IN (${ktypes})`;
+               query = `SELECT * FROM CROSS_SKU_KTYPE_V4 WHERE ktype IN (${ktypes})`;
 
                // set query to column
                setSqlQuery(query);
