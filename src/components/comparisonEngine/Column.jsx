@@ -1,7 +1,10 @@
 import { List, Divider, Input } from "antd";
 import { useEffect, useState } from "react";
 
+import DownloadFile from "../DownloadFile";
+
 import getDataQuery from "../../assets/composables/getDataQuery";
+import mappingData from "../../assets/composables/comparisonEngine/mappingData";
 
 import "../../assets/scss/comparisonEngine/Column.scss";
 
@@ -14,16 +17,7 @@ export default function ComparisonEngineColumn({
      const [loading, setLoading] = useState(true);
      const [items, setItems] = useState([]);
      const [selectedItem, setSelectedItem] = useState(null);
-
-     const { Search } = Input;
-
-     //  const sqlQueies = {
-
-     //   brand: `SELECT DISTINCT Brand FROM CROSS_ALL_DATA WHERE ${data.id_producent} = '${data.sku}'`,
-     //      model:
-     //   engines: `SELECT DISTINCT TD_Engine FROM CROSS_ALL_DATA WHERE ${data.id_producent} = '${data.sku}' AND Brand = '${data.brand}'`,
-     //   skus: `SELECT DISTINCT sku_sdt, sku_dba, sku_bd, sku_ebc, sku_brembo FROM CROSS_ALL_DATA WHERE ${data.id_producent} = '${data.sku}' AND Brand = '${data.brand}' AND TD_Engine = '${data.engine}'`,
-     //  };
+     const [res, setRes] = useState([]);
 
      function handleClickitem(id, item) {
           clickItem(id, item);
@@ -36,6 +30,8 @@ export default function ComparisonEngineColumn({
                if (query) {
                     const res = await getDataQuery(query);
 
+                    console.log(res)
+
                     if (!res) return;
 
                     let newItems = [];
@@ -46,18 +42,22 @@ export default function ComparisonEngineColumn({
                     if (id === "sku") {
                          res.forEach((item) => {
                               for (const key in item) {
-                                   if (item[key]) {
+                                   if (item.sku) {
                                         if (
                                              !newItems.find(
                                                   (newItem) =>
-                                                       newItem.id === item[key]
+                                                       newItem.id === item.sku
                                              )
                                         ) {
                                              newItems.push({
-                                                  id: item[key],
-                                                  title: item[key],
-                                                  description: key,
-                                                  id_producent: key,
+                                                  id: item.sku,
+                                                  title: item.sku,
+                                                  description:
+                                                       "Producent: " +
+                                                       mappingData.producents[
+                                                            item.source
+                                                       ],
+                                                  id_producent: item.source,
                                              });
                                         }
                                    }
@@ -65,6 +65,7 @@ export default function ComparisonEngineColumn({
                          });
 
                          setItems(newItems);
+                         setRes(res);
 
                          return;
                     }
@@ -119,10 +120,11 @@ export default function ComparisonEngineColumn({
      }, [query, id]);
 
      return (
-          <div style={{ height: "100%"}}>
+          <div style={{ height: "100%" }}>
                <div className="column-container">
                     <div className="title">
                          <h3>{title}</h3>
+                         <DownloadFile data={res} size={"small"} />
                     </div>
                     <Divider className="divider" />
 
@@ -141,7 +143,7 @@ export default function ComparisonEngineColumn({
                                                   ? "#F5F5F5"
                                                   : "#FFF",
                                    }}
-                                   onClick={() => handleClickitem(id, item)}
+                                   // onClick={() => handleClickitem(id, item)}
                                    label={item.title}
                               >
                                    <List.Item.Meta
