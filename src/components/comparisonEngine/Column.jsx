@@ -1,7 +1,9 @@
-import { List, Divider, Input } from "antd";
+import { List, Divider, Modal, Button } from "antd";
+import { FilterOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 
 import DownloadFile from "../DownloadFile";
+import ComparisonEngineFilters from "./Filters";
 
 import getDataQuery from "../../assets/composables/getDataQuery";
 import mappingData from "../../assets/composables/comparisonEngine/mappingData";
@@ -17,7 +19,8 @@ export default function ComparisonEngineColumn({
      const [loading, setLoading] = useState(true);
      const [items, setItems] = useState([]);
      const [selectedItem, setSelectedItem] = useState(null);
-     const [res, setRes] = useState([]);
+     const [$res, setRes] = useState([]);
+     const [isModalOpen, setIsModalOpen] = useState(false);
 
      function handleClickitem(id, item) {
           clickItem(id, item);
@@ -25,12 +28,19 @@ export default function ComparisonEngineColumn({
           setSelectedItem(item.id);
      }
 
-     useEffect(() => {
-          async function getItems() {
-               if (query) {
-                    const res = await getDataQuery(query);
+     async function handleModalOkClick() {
+          setIsModalOpen(false);
+     }
 
-                    console.log(res)
+     // USE EFFECTS
+     useEffect(() => {
+          // Get Items
+          async function getItems() {
+               if (query && !isModalOpen) {
+                    setLoading(true);
+
+                    const res =
+                         $res.length > 0 ? $res : await getDataQuery(query);
 
                     if (!res) return;
 
@@ -40,6 +50,10 @@ export default function ComparisonEngineColumn({
 
                     // GET SKU
                     if (id === "sku") {
+                         let selectedProducents = JSON.parse(
+                              localStorage.getItem("filtersShowProducents")
+                         );
+
                          res.forEach((item) => {
                               for (const key in item) {
                                    if (item.sku) {
@@ -47,13 +61,15 @@ export default function ComparisonEngineColumn({
                                              !newItems.find(
                                                   (newItem) =>
                                                        newItem.id === item.sku
+                                             ) &&
+                                             selectedProducents.includes(
+                                                  item.source
                                              )
                                         ) {
                                              newItems.push({
                                                   id: item.sku,
                                                   title: item.sku,
                                                   description:
-                                                       "Producent: " +
                                                        mappingData.producents[
                                                             item.source
                                                        ],
@@ -62,6 +78,18 @@ export default function ComparisonEngineColumn({
                                         }
                                    }
                               }
+                         });
+
+                         // Sort newItems
+                         newItems.sort((a, b) => {
+                              let indexA = selectedProducents.indexOf(
+                                   a.id_producent
+                              );
+                              let indexB = selectedProducents.indexOf(
+                                   b.id_producent
+                              );
+
+                              return indexA - indexB;
                          });
 
                          setItems(newItems);
@@ -117,14 +145,34 @@ export default function ComparisonEngineColumn({
           }
 
           getItems();
-     }, [query, id]);
+     }, [query, id, isModalOpen]);
 
      return (
           <div style={{ height: "100%" }}>
                <div className="column-container">
                     <div className="title">
                          <h3>{title}</h3>
-                         <DownloadFile data={res} size={"small"} />
+
+                         <div className="btns">
+                              <Modal
+                                   title="Filtry"
+                                   open={isModalOpen}
+                                   onOk={() => handleModalOkClick()}
+                              >
+                                   <ComparisonEngineFilters
+                                        data={items}
+                                        id={id}
+                                   />
+                              </Modal>
+
+                              <Button
+                                   type="primary"
+                                   size="small"
+                                   icon={<FilterOutlined />}
+                                   onClick={() => setIsModalOpen(true)}
+                              />
+                              <DownloadFile data={$res} size={"small"} />
+                         </div>
                     </div>
                     <Divider className="divider" />
 
@@ -164,8 +212,6 @@ export default function ComparisonEngineColumn({
                          /> */}
                     </div>
                </div>
-
-               {/* <Divider orientation="right" type="vertical" style={{backgroundColor: 'red', height: '100%'}}/> */}
           </div>
      );
 }

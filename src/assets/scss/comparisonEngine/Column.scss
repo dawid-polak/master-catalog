@@ -16,6 +16,11 @@
                margin: 0;
                padding: 0;
           }
+
+          .btns {
+               display: flex;
+               gap: 8px;
+          }
      }
 
      .divider {
