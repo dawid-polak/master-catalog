@@ -23,6 +23,10 @@ let filesDb = [
           name: "powerOptions",
           key: "KM",
      },
+     {
+          name: "engineYearsOfProductionsPowerOptions",
+          key: "TD_Engine, TD_Engine_From, TD_Engine_TO, KM",
+     },
 ];
 
 // Function to create a query to obtain the available filter options for a given field
@@ -86,7 +90,18 @@ const createSqlQueryToOptions = (dataForm, idSelect) => {
           sqlQuery += ` AND `;
           sqlQuery += `TD_Engine_To = '${dateTo}'`;
 
-          // 2000 02 2005 08
+          return sqlQuery;
+     }
+
+     // Create query to engine / yearsOfProductions / power
+     if (idSelect === "engineYearsOfProductionsPowerOptions") {
+          sqlQuery =
+               "SELECT TD_Engine, TD_Engine_From, TD_Engine_TO, KM, kW FROM `CROSS_DRZEWKO` WHERE ";
+
+          sqlQuery += `Brand = '${dataForm.brand}'`;
+          sqlQuery += ` AND `;
+          sqlQuery += `TD_Model = '${dataForm.model}'`;
+
           return sqlQuery;
      }
 };

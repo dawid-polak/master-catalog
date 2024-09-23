@@ -54,6 +54,9 @@ export default function ComparisonEngineColumn({
                               localStorage.getItem("filtersShowProducents")
                          );
 
+                         // dadać poprawkę - pierwsze logowanie bez cookies - nie ładują sie itemy
+                         // usunać cancel z modelu
+
                          res.forEach((item) => {
                               for (const key in item) {
                                    if (item.sku) {

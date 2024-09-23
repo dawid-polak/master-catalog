@@ -14,6 +14,7 @@ export default function ComparisonEngine() {
      const [dataForm, setDataForm] = useState({
           brand: null,
           model: null,
+          engineYearsOfProductionsPower: null,
           engine: null,
           yearsOfProductions: null,
           power: null,
@@ -45,6 +46,9 @@ export default function ComparisonEngine() {
                     brand: searchParams.get("brand"),
                     model: searchParams.get("model"),
                     engine: searchParams.get("engine"),
+                    engineYearsOfProductionsPower: searchParams.get(
+                         "engineYearsOfProductionsPower"
+                    ),
                     yearsOfProductions: searchParams.get("yearsOfProductions"),
                     power: searchParams.get("power"),
                };
@@ -73,9 +77,35 @@ export default function ComparisonEngine() {
                     mappingData.nameData[key].forEach((item, index) => {
                          query += `${item} = '${dates[index]}' AND `;
                     });
-               } else {
-                    query += `${mappingData.nameData[key]} = '${dataForm[key]}' AND `;
+
+                    continue;
                }
+
+               if (key === "engineYearsOfProductionsPower") {
+                    let data = dataForm[key].split(";");
+                    let keys = [
+                         "kW",
+                         "TD_Engine_From",
+                         "TD_Engine_To",
+                         "KM",
+                         "TD_Engine",
+                    ];
+                    let arrayToCreateQuery = data.map((item, index) => {
+                         return { value: item, key: keys[index] };
+                    });
+
+                    arrayToCreateQuery.forEach((item) => {
+                         if (item.value !== "null") {
+                              query += `${item.key} = '${item.value}' AND `;
+                         }
+                    });
+
+                    continue;
+               }
+
+               query += `${mappingData.nameData[key]} = '${dataForm[key]}' AND `;
+
+               continue;
           }
 
           query = query.slice(0, -4);

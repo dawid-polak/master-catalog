@@ -17,6 +17,7 @@ export default function ComparisonEngineForm({
           engineOptions: null,
           yearsOfProductionsOptions: null,
           powerOptions: null,
+          engineYearsOfProductionsPowerOptions: null,
      });
      const [loading, setLoading] = useState(false);
 
@@ -74,6 +75,50 @@ export default function ComparisonEngineForm({
                          continue;
                     }
 
+                    // assign options to engineYearsOfProductionsPower
+                    if (id === "engineYearsOfProductionsPowerOptions") {
+                         if (
+                              !item.TD_Engine ||
+                              (!item.TD_Engine_From && !item.TD_Engine_To) ||
+                              (!item.KM && !item.kW)
+                         )
+                              return;
+
+                         let engine = item.TD_Engine;
+
+                         let yearOfProductionFrom = item.TD_Engine_From
+                              ? `${item.TD_Engine_From.slice(
+                                     0,
+                                     4
+                                )}/${item.TD_Engine_From.slice(4, 6)}`
+                              : "n/d";
+
+                         let yearOfProductionTo = item.TD_Engine_To
+                              ? `${item.TD_Engine_To.slice(
+                                     0,
+                                     4
+                                )}/${item.TD_Engine_To.slice(4, 6)}`
+                              : "n/d";
+
+                         let yearsOfProductions = `${yearOfProductionFrom} - ${yearOfProductionTo}`;
+                         let power = `${item.KM} hp`;
+                         let powerKw = `${item.kW} kw`;
+
+                         let label = `${engine} | ${power} | ${powerKw} | ${yearsOfProductions} `;
+                         let value = `${item.kW};${
+                              item.TD_Engine_From ? item.TD_Engine_From : null
+                         };${item.TD_Engine_To ? item.TD_Engine_To : null};${
+                              item.KM
+                         };${item.TD_Engine}`;
+
+                         options.push({
+                              label,
+                              value,
+                         });
+
+                         continue;
+                    }
+
                     // assign unalienable options
                     options.push({
                          label: item[mappingData.formOptions[id]],
@@ -101,6 +146,7 @@ export default function ComparisonEngineForm({
           let fieldsByHierarchy = [
                "brand",
                "model",
+               "engineYearsOfProductionsPower",
                "engine",
                "yearsOfProductions",
                "power",
@@ -180,58 +226,30 @@ export default function ComparisonEngineForm({
                               onChange={(e) => handleSetNewValue("model", e)}
                          />
                     </Form.Item>
-                    <Form.Item name="engine">
+
+                    <Form.Item name="engineYearsOfProductionsPower">
                          <Select
                               showSearch
-                              placeholder="Silnik"
+                              placeholder="Silnik | Moc KM | Moc kW | Lata produkcji "
                               allowClear
                               loading={loading}
                               filterSort={(a, b) => filterSort(a, b)}
-                              options={dataOptions.engineOptions}
-                              onFocus={() => getOptions("engineOptions")}
-                              onChange={(e) => handleSetNewValue("engine", e)}
+                              options={
+                                   dataOptions.engineYearsOfProductionsPowerOptions
+                              }
+                              onFocus={() =>
+                                   getOptions(
+                                        "engineYearsOfProductionsPowerOptions"
+                                   )
+                              }
+                              onChange={(e) =>
+                                   handleSetNewValue(
+                                        "engineYearsOfProductionsPower",
+                                        e
+                                   )
+                              }
                          />
                     </Form.Item>
-
-                    <div style={{ display: "flex", width: "100%" }}>
-                         <Form.Item
-                              name="yearsOfProductions"
-                              style={{ flex: 1, marginRight: 10 }}
-                         >
-                              <Select
-                                   showSearch
-                                   placeholder="Lata produkcji"
-                                   allowClear
-                                   loading={loading}
-                                   options={
-                                        dataOptions.yearsOfProductionsOptions
-                                   }
-                                   onFocus={() =>
-                                        getOptions("yearsOfProductionsOptions")
-                                   }
-                                   onChange={(e) =>
-                                        handleSetNewValue(
-                                             "yearsOfProductions",
-                                             e
-                                        )
-                                   }
-                              />
-                         </Form.Item>
-
-                         <Form.Item name="power" style={{ flex: 1 }}>
-                              <Select
-                                   showSearch
-                                   placeholder="Liczba KM"
-                                   allowClear
-                                   loading={loading}
-                                   options={dataOptions.powerOptions}
-                                   onFocus={() => getOptions("powerOptions")}
-                                   onChange={(e) =>
-                                        handleSetNewValue("power", e)
-                                   }
-                              />
-                         </Form.Item>
-                    </div>
 
                     <Form.Item>
                          <Button
