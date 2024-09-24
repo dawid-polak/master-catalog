@@ -54,8 +54,12 @@ export default function ComparisonEngineColumn({
                               localStorage.getItem("filtersShowProducents")
                          );
 
-                         // dadać poprawkę - pierwsze logowanie bez cookies - nie ładują sie itemy
-                         // usunać cancel z modelu
+                         // if there is no localStorage - filtersShowProducents, we return all producents by default
+                         if (!selectedProducents) {
+                              selectedProducents = Object.entries(
+                                   mappingData.producents
+                              ).map(([key]) => key);
+                         }
 
                          res.forEach((item) => {
                               for (const key in item) {
@@ -161,6 +165,11 @@ export default function ComparisonEngineColumn({
                                    title="Filtry"
                                    open={isModalOpen}
                                    onOk={() => handleModalOkClick()}
+                                   cancelButtonProps={{
+                                        style: {
+                                             display: "none",
+                                        },
+                                   }}
                               >
                                    <ComparisonEngineFilters
                                         data={items}
