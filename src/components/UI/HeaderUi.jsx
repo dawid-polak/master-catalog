@@ -34,6 +34,9 @@ export default function HeaderUi() {
                style={{
                     background: colorBgContainer,
                     borderRadius: 10,
+                    backgroundImage:
+                         "url('https://images.unsplash.com/photo-1671955100855-074bf3f3db3c?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+                    backgroundSize: "cover",
                }}
                className="header"
           >
@@ -49,7 +52,7 @@ export default function HeaderUi() {
                     ></Button>
                </Tooltip>
 
-               <div>v.1.0</div>
+               <div style={{ color: "#FFF" }}>v.1.0</div>
           </Header>
      );
 }
