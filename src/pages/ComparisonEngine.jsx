@@ -20,6 +20,7 @@ export default function ComparisonEngine() {
           power: null,
      });
      const [sqlQuery, setSqlQuery] = useState(null);
+     const [ktypes, setKtypes] = useState([]);
 
      // Change data in dataForm
      const handleSetDataForm = (id, updatedValue, fieldsToReset) => {
@@ -120,8 +121,7 @@ export default function ComparisonEngine() {
 
                query = `SELECT * FROM CROSS_SKU_KTYPE_V4 WHERE ktype IN (${ktypes})`;
 
-               // set query to column
-               setSqlQuery(query);
+               setKtypes(res);
 
                return;
           }
@@ -181,6 +181,7 @@ export default function ComparisonEngine() {
                <div className="finder">
                     <ComparisonEngineFinder
                          query={sqlQuery}
+                         ktypes={ktypes}
                          dataForm={dataForm}
                     />
                </div>

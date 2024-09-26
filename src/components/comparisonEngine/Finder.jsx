@@ -4,7 +4,7 @@ import "../../assets/scss/comparisonEngine/Finder.scss";
 
 import ComparisonEngineColumn from "./Column";
 
-export default function ComparisonEngineFinder({ query, dataForm }) {
+export default function ComparisonEngineFinder({ query, dataForm, ktypes }) {
      const [columns, setColumns] = useState([]);
 
      const sequence = ["sku", "brand", "model", "engine"];
@@ -116,6 +116,7 @@ export default function ComparisonEngineFinder({ query, dataForm }) {
                          title={item.title}
                          isNested={item.isNested}
                          query={item.query}
+                         ktypes={item.ktypes}
                          clickItem={handleClickItem}
                     />
                </div>
@@ -129,9 +130,10 @@ export default function ComparisonEngineFinder({ query, dataForm }) {
                     id: "sku",
                     title: "SKU",
                     query: query,
+                    ktypes: ktypes,
                },
           ]);
-     }, [query]);
+     }, [ktypes]);
 
      return (
           <div className="container-finder">
@@ -142,7 +144,7 @@ export default function ComparisonEngineFinder({ query, dataForm }) {
                               (dataForm.engine ? " -- " + dataForm.engine : "")}
                     </p>
                </div>
-               <div className="content">{query && htmlColumns}</div>
+               <div className="content">{ktypes && htmlColumns}</div>
           </div>
      );
 }

@@ -7,6 +7,7 @@ import ComparisonEngineFilters from "./Filters";
 
 import getDataQuery from "../../assets/composables/getDataQuery";
 import mappingData from "../../assets/composables/comparisonEngine/mappingData";
+import getCrossItems from "../../assets/composables/connections/cross";
 
 import "../../assets/scss/comparisonEngine/Column.scss";
 
@@ -15,6 +16,7 @@ export default function ComparisonEngineColumn({
      clickItem,
      title,
      query,
+     ktypes,
 }) {
      const [loading, setLoading] = useState(true);
      const [items, setItems] = useState([]);
@@ -36,11 +38,17 @@ export default function ComparisonEngineColumn({
      useEffect(() => {
           // Get Items
           async function getItems() {
-               if (query && !isModalOpen) {
+               if (!isModalOpen) {
                     setLoading(true);
 
+                    if (ktypes.length === 0) return;
+
                     const res =
-                         $res.length > 0 ? $res : await getDataQuery(query);
+                         $res.length > 0
+                              ? $res
+                              : await getCrossItems(
+                                     ktypes.map((item) => item.ktype)
+                                );
 
                     if (!res) return;
 
@@ -48,7 +56,7 @@ export default function ComparisonEngineColumn({
 
                     setLoading(false);
 
-                    // GET SKU
+                    // GET SKUf
                     if (id === "sku") {
                          let selectedProducents = JSON.parse(
                               localStorage.getItem("filtersShowProducents")
@@ -61,43 +69,31 @@ export default function ComparisonEngineColumn({
                               ).map(([key]) => key);
                          }
 
-                         res.forEach((item) => {
-                              for (const key in item) {
-                                   if (item.sku) {
-                                        if (
-                                             !newItems.find(
-                                                  (newItem) =>
-                                                       newItem.id === item.sku
-                                             ) &&
-                                             selectedProducents.includes(
-                                                  item.source
-                                             )
-                                        ) {
-                                             newItems.push({
-                                                  id: item.sku,
-                                                  title: item.sku,
-                                                  description:
-                                                       mappingData.producents[
-                                                            item.source
-                                                       ],
-                                                  id_producent: item.source,
-                                             });
-                                        }
-                                   }
+                         if (!res.data) return;
+
+                         res.data.forEach((item) => {
+                              if (!selectedProducents.includes(item.source)) {
+                                   newItems.push({
+                                        id: item.sku,
+                                        title: item.sku,
+                                        description: item.source,
+                                        content: item.criteria,
+                                        id_producent: item.source,
+                                   });
                               }
                          });
 
                          // Sort newItems
-                         newItems.sort((a, b) => {
-                              let indexA = selectedProducents.indexOf(
-                                   a.id_producent
-                              );
-                              let indexB = selectedProducents.indexOf(
-                                   b.id_producent
-                              );
+                         // newItems.sort((a, b) => {
+                         //      let indexA = selectedProducents.indexOf(
+                         //           a.id_producent
+                         //      );
+                         //      let indexB = selectedProducents.indexOf(
+                         //           b.id_producent
+                         //      );
 
-                              return indexA - indexB;
-                         });
+                         //      return indexA - indexB;
+                         // });
 
                          setItems(newItems);
                          setRes(res);
@@ -152,7 +148,41 @@ export default function ComparisonEngineColumn({
           }
 
           getItems();
-     }, [query, id, isModalOpen]);
+     }, [ktypes, id, isModalOpen]);
+
+     // Render Content
+     const htmlContentItem = (data) => {
+          let headers = data.map((item, index) => (
+               <div
+                    style={{
+                         display: "flex",
+                         alignItems: "center",
+                    }}
+                    key={index}
+               >
+                    <h5 style={{ margin: 0, padding: 0 }}>
+                         {item.name_criteria}:
+                    </h5>
+
+                    <h5
+                         style={{
+                              fontWeight: 300,
+                              margin: "0px 5px",
+                              padding: 0,
+                         }}
+                    >
+                         {item.value_criteria.map((item) => item + ", ")}
+                    </h5>
+               </div>
+          ));
+
+          return (
+               <div style={{ width: "100%", display: "flex" }}>
+                    <div style={{ width: "25%" }}></div>
+                    <div style={{ width: "75%" }}>{headers}</div>
+               </div>
+          );
+     };
 
      return (
           <div style={{ height: "100%" }}>
@@ -204,12 +234,21 @@ export default function ComparisonEngineColumn({
                                                   : "#FFF",
                                    }}
                                    // onClick={() => handleClickitem(id, item)}
-                                   label={item.title}
                               >
                                    <List.Item.Meta
-                                        title={item.title}
-                                        description={item.description}
+                                        title={
+                                             <div style={{ width: "300px" }}>
+                                                  {item.title}
+                                             </div>
+                                        }
+                                        description={
+                                             <div style={{ width: "300px" }}>
+                                                  {item.description}
+                                             </div>
+                                        }
                                    />
+
+                                   {htmlContentItem(item.content)}
                               </List.Item>
                          )}
                     />
