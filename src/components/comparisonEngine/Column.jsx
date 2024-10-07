@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import DownloadFile from "../DownloadFile";
 import ComparisonEngineFilters from "./Filters";
 
-import getDataQuery from "../../assets/composables/getDataQuery";
 import mappingData from "../../assets/composables/comparisonEngine/mappingData";
 import getCrossItems from "../../assets/composables/connections/cross";
 
@@ -15,7 +14,6 @@ export default function ComparisonEngineColumn({
      id,
      clickItem,
      title,
-     query,
      ktypes,
 }) {
      const [loading, setLoading] = useState(true);
@@ -64,15 +62,17 @@ export default function ComparisonEngineColumn({
 
                          // if there is no localStorage - filtersShowProducents, we return all producents by default
                          if (!selectedProducents) {
-                              selectedProducents = Object.entries(
-                                   mappingData.producents
-                              ).map(([key]) => key);
+                              selectedProducents =
+                                   mappingData.producents_array.map(
+                                        (item) => item
+                                   );
                          }
 
                          if (!res.data) return;
 
                          res.data.forEach((item) => {
-                              if (!selectedProducents.includes(item.source)) {
+
+                              if (selectedProducents.includes(item.source)) {
                                    newItems.push({
                                         id: item.sku,
                                         title: item.sku,
@@ -84,16 +84,16 @@ export default function ComparisonEngineColumn({
                          });
 
                          // Sort newItems
-                         // newItems.sort((a, b) => {
-                         //      let indexA = selectedProducents.indexOf(
-                         //           a.id_producent
-                         //      );
-                         //      let indexB = selectedProducents.indexOf(
-                         //           b.id_producent
-                         //      );
+                         newItems.sort((a, b) => {
+                              let indexA = selectedProducents.indexOf(
+                                   a.id_producent
+                              );
+                              let indexB = selectedProducents.indexOf(
+                                   b.id_producent
+                              );
 
-                         //      return indexA - indexB;
-                         // });
+                              return indexA - indexB;
+                         });
 
                          setItems(newItems);
                          setRes(res);
@@ -171,7 +171,7 @@ export default function ComparisonEngineColumn({
                               padding: 0,
                          }}
                     >
-                         {item.value_criteria.map((item) => item + ", ")}
+                         {item.value_criteria.map((item) => item + " ")}
                     </h5>
                </div>
           ));
@@ -254,14 +254,6 @@ export default function ComparisonEngineColumn({
                     />
 
                     <Divider className="divider" />
-
-                    <div className="footer">
-                         {/* <Search
-                              placeholder={"Wyszukaj " + id}
-                              allowClear
-                              className="search"
-                         /> */}
-                    </div>
                </div>
           </div>
      );

@@ -5,7 +5,9 @@ const mappingData = {
           B_SDT: "SDT",
           B_EBC: "EBC",
           B_BREMBO: "BREMBO",
+          B_ACS: "ACS",
      },
+     producents_array: ["Black Diamond", "DBA", "SDT", "EBC", "BREMBO", "ACS"],
      formOptions: {
           brandOptions: "Brand",
           modelOptions: "TD_Model",

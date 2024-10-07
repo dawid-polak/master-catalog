@@ -54,28 +54,28 @@ export default function ComparisonEngineFilters({ data, id }) {
 
      // HTML
      //  Render HTML checkboxes to select producents
-     const checkboxes = Object.entries(mappingData.producents).map(
-          ([key, value], index) => {
-               let isActive = activeFiltersShowProducents
-                    ? activeFiltersShowProducents.includes(key)
-                    : false;
+     const checkboxes = mappingData.producents_array.map((item, index) => {
+          let isActive = false;
 
-               return (
-                    <Checkbox
-                         key={index}
-                         checked={isActive}
-                         onChange={(e) =>
-                              handleUpdateActiveFiltersShowProducents(
-                                   e.target.checked,
-                                   key
-                              )
-                         }
-                    >
-                         {value}
-                    </Checkbox>
-               );
+          if (activeFiltersShowProducents) {
+               isActive = activeFiltersShowProducents.includes(item);
           }
-     );
+
+          return (
+               <Checkbox
+                    key={index}
+                    checked={isActive}
+                    onChange={(e) =>
+                         handleUpdateActiveFiltersShowProducents(
+                              e.target.checked,
+                              item
+                         )
+                    }
+               >
+                    {item}
+               </Checkbox>
+          );
+     });
 
      useEffect(() => {
           // Create localStorage to mangement show custom producents
@@ -85,11 +85,7 @@ export default function ComparisonEngineFilters({ data, id }) {
           ) {
                localStorage.setItem(
                     "filtersShowProducents",
-                    JSON.stringify(
-                         Object.entries(mappingData.producents).map(
-                              ([key]) => key
-                         )
-                    )
+                    JSON.stringify(mappingData.producents_array)
                );
 
                setActiveFiltersShowProducents(
