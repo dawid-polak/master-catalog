@@ -6,7 +6,8 @@ export default function DownloadFile({ loading, data, size, type }) {
      const [loadingDownload, setLoadingDownload] = useState(false);
 
      function handleDownloadData() {
-          if (!data[0]) return;
+
+          if (!data) return;
 
           setLoadingDownload(true);
 

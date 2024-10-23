@@ -68,7 +68,12 @@ export default function ComparisonEngineColumn({
                                    );
                          }
 
-                         if (!res.data) return;
+                         if (!res.data) {
+                              setRes([])
+                              setItems([])
+
+                              return
+                         }
 
                          res.data.forEach((item) => {
                               if (selectedProducents.includes(item.source)) {
@@ -274,7 +279,7 @@ export default function ComparisonEngineColumn({
                                                             zIndex: 1000,
                                                        }}
                                                   >
-                                                       OEM:{" "}
+                                                       {item.description.oem && 'OEM: '}
                                                        {item.description.oem}
                                                   </p>
                                              </div>
