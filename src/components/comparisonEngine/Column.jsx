@@ -71,12 +71,14 @@ export default function ComparisonEngineColumn({
                          if (!res.data) return;
 
                          res.data.forEach((item) => {
-
                               if (selectedProducents.includes(item.source)) {
                                    newItems.push({
                                         id: item.sku,
                                         title: item.sku,
-                                        description: item.source,
+                                        description: {
+                                             oem: item.oem,
+                                             source: item.source,
+                                        },
                                         content: item.criteria,
                                         id_producent: item.source,
                                    });
@@ -152,17 +154,33 @@ export default function ComparisonEngineColumn({
 
      // Render Content
      const htmlContentItem = (data) => {
-          let headers = data.map((item, index) => (
+          if (!data)
+               return (
+                    <div style={{ flex: 1, display: "flex" }}>
+                         <div style={{ width: "75%" }}>
+                              <h5
+                                   style={{
+                                        fontWeight: 300,
+                                        margin: "0px 5px",
+                                        padding: 0,
+                                   }}
+                              >
+                                   No data
+                              </h5>
+                         </div>
+                    </div>
+               );
+
+          let headers = Object.entries(data).map(([key, value], index) => (
                <div
                     style={{
                          display: "flex",
                          alignItems: "center",
+                         width: "80%",
                     }}
                     key={index}
                >
-                    <h5 style={{ margin: 0, padding: 0 }}>
-                         {item.name_criteria}:
-                    </h5>
+                    <h5 style={{ margin: 0, padding: 0 }}>{key}:</h5>
 
                     <h5
                          style={{
@@ -171,14 +189,14 @@ export default function ComparisonEngineColumn({
                               padding: 0,
                          }}
                     >
-                         {item.value_criteria.map((item) => item + " ")}
+                         {Array.isArray(value) ? value.join(" ") : value}
                     </h5>
                </div>
           ));
 
           return (
-               <div style={{ width: "100%", display: "flex" }}>
-                    <div style={{ width: "25%" }}></div>
+               <div style={{ flex: 1, display: "flex" }}>
+                    {/* <div style={{ width: "25%" }}></div> */}
                     <div style={{ width: "75%" }}>{headers}</div>
                </div>
           );
@@ -234,21 +252,36 @@ export default function ComparisonEngineColumn({
                                                   : "#FFF",
                                    }}
                                    // onClick={() => handleClickitem(id, item)}
+                                   extra={htmlContentItem(item.content)}
                               >
                                    <List.Item.Meta
-                                        title={
-                                             <div style={{ width: "300px" }}>
-                                                  {item.title}
-                                             </div>
-                                        }
+                                        title={item.title}
                                         description={
                                              <div style={{ width: "300px" }}>
-                                                  {item.description}
+                                                  <p
+                                                       style={{
+                                                            padding: 0,
+                                                            margin: 0,
+                                                       }}
+                                                  >
+                                                       {item.description.source}
+                                                  </p>
+                                                  <p
+                                                       style={{
+                                                            padding: 0,
+                                                            margin: 0,
+                                                            fontSize: "10px",
+                                                            zIndex: 1000,
+                                                       }}
+                                                  >
+                                                       OEM:{" "}
+                                                       {item.description.oem}
+                                                  </p>
                                              </div>
                                         }
                                    />
 
-                                   {htmlContentItem(item.content)}
+                                   {/* {htmlContentItem(item.content)} */}
                               </List.Item>
                          )}
                     />

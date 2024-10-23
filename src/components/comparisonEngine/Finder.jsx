@@ -123,6 +123,20 @@ export default function ComparisonEngineFinder({ query, dataForm, ktypes }) {
           );
      });
 
+     const htmlKtypes = () => {
+          if (!ktypes) return;
+
+          let formatedKtypes = ktypes.map((item) => item.ktype);
+
+          return (
+               <div style={{ display: "flex" }}>
+                    {formatedKtypes.map((item, index) => (
+                         <p key={index}>{item}</p>
+                    ))}
+               </div>
+          );
+     };
+
      useEffect(() => {
           setColumns([
                {
@@ -138,6 +152,16 @@ export default function ComparisonEngineFinder({ query, dataForm, ktypes }) {
      return (
           <div className="container-finder">
                <div className="top">
+                    <div
+                         style={{
+                              display: "flex",
+                              alignItems: "center",
+                              color: "#FFF"
+                         }}
+                    >
+                         <p style={{marginRight: '-15px'}}>Ktypes: </p>{htmlKtypes()}
+                    </div>
+
                     <p>
                          {(dataForm.brand ? dataForm.brand : "") +
                               (dataForm.model ? " -- " + dataForm.model : "") +
