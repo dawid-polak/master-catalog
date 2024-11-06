@@ -86,7 +86,10 @@ export default function ComparisonEngineColumn({
                                         },
                                         content: item.criteria,
                                         id_producent: item.source,
+                                        skuMintex: Array.isArray(item.skuMintex) ? item.skuMintex.join(', ') : item.skuMintex
                                    });
+
+                                   console.log(item)
                               }
                          });
 
@@ -280,7 +283,8 @@ export default function ComparisonEngineColumn({
                                                        }}
                                                   >
                                                        {item.description.oem && 'OEM: '}
-                                                       {item.description.oem}
+                                                       {item.description.oem} <br />
+                                                       {item.skuMintex && 'Mintex SKU: ' + item.skuMintex}
                                                   </p>
                                              </div>
                                         }
